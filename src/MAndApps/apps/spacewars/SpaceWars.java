@@ -24,7 +24,7 @@ import MAndEngine.BasicApp;
 import MAndEngine.Engine;
 
 public class SpaceWars implements BasicApp {
-	
+
 	//
 	private static boolean paused = false, debug = false;
 	private static int redPoints = 0, bluePoints = 0, greenPoints = 0, time = 0;
@@ -38,7 +38,7 @@ public class SpaceWars implements BasicApp {
 	private static int lvl = 1, xpToNextLVL = getMaxXPForLvl(lvl), xp = 0, expBar = 424;
 	private static boolean shopping = false;
 	private Shop shop = new Shop();
-	
+
 	//
 	public static final Font defaultFont = new Font("Ubuntu", Font.BOLD, 10);
 	public static final Font moneyFont = new Font("Ubuntu", Font.BOLD, 20);
@@ -81,7 +81,7 @@ public class SpaceWars implements BasicApp {
 					log("You gained " + enemies.elementAt(i).getWorth() + " exp.");
 					addEXP(enemies.elementAt(i).getWorth());
 
-					//enemies.remove(i);
+					// enemies.remove(i);
 
 				} else
 					i++;
@@ -112,15 +112,15 @@ public class SpaceWars implements BasicApp {
 	public static Stack<Enemy> getEnemies() {
 		return enemies;
 	}
-	
+
 	@Override
 	public void render(Graphics2D g) {
-		
+
 		try {
 
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			
+
 			g.setFont(defaultFont);
 			g.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
 
@@ -280,7 +280,7 @@ public class SpaceWars implements BasicApp {
 	}
 
 	private static int getMaxXPForLvl(int lvl) {
-		return (int)(Math.pow(lvl, 1.618));
+		return (int) (Math.pow(lvl, 1.618));
 	}
 
 	public void addEXP(int i) {
@@ -333,12 +333,14 @@ public class SpaceWars implements BasicApp {
 	@Override
 	public void resized(int width, int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void click() {
 		// TODO Auto-generated method stub
-		
+
+		BOOM(75, 1.2, 100, 100, 100, 50, Engine.mouseX, Engine.mouseY, 550, true, true, 10);
+
 	}
 }
