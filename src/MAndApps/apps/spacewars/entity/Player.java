@@ -21,7 +21,7 @@ public class Player extends Entity {
 	private boolean goBoom = false;
 
 	public Player() {
-		super(512, 550, WIDTH, HEIGHT);
+		super((int) 512, (int) 550, WIDTH, HEIGHT);
 	}
 
 	@Override

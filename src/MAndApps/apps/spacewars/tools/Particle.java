@@ -63,17 +63,16 @@ public class Particle extends Entity{
 		} else {
 			color = new Color(rand(0, 256), rand(0, 256), rand(0, 256));
 		}
-        updateBoundingBox(x, y, size , size);
+        updateBoundingBox((int)x, (int)y, size , size);
 
 	}
 
 	private static final double PHI = 1.618033988749894848204586;
 
-	@Override
 	public int tick() {
 		if (life < moveLife) {
-			x += Math.cos((angleDeg * Math.PI) / 180d) * speed;
-			y += Math.sin((angleDeg * Math.PI) / 180d) * speed;
+			x += Math.cos(((double) angleDeg * Math.PI) / 180d) * speed;
+			y += Math.sin(((double) angleDeg * Math.PI) / 180d) * speed;
 		}
 		speed /= PHI;
 		if (life > renderLife)
@@ -88,7 +87,6 @@ public class Particle extends Entity{
         return 0;
 	}
 
-	@Override
 	public void render(Graphics g) {
 		if (alive) {
 			g.setColor(color);

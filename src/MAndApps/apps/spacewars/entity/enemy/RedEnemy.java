@@ -27,8 +27,7 @@ public class RedEnemy extends Enemy {
 
     }
 
-    @Override
-	public int tick() {
+    public int tick() {
         // epic AI
         if((int)healthBar <= 0){
             alive = false;
@@ -131,12 +130,11 @@ public class RedEnemy extends Enemy {
     private Random r = new Random();
     private int absoluteTime = 0;
 
-    @Override
-	public void render(Graphics g) {
+    public void render(Graphics g) {
         g.setColor(color);
         int temp;
         try{
-            temp = r.nextInt((int)(0-(absoluteTime/20d))+5);
+            temp = r.nextInt((int)(0-((double)absoluteTime/20d))+5);
         }catch(Exception e){
             temp = 0;
         }

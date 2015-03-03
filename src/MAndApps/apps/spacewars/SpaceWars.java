@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.Transparency;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -190,7 +189,7 @@ public class SpaceWars implements BasicApp {
 		try {
 			background = ImageIO.read(new URL("http://wallpapersus.com/wallpapers/2012/10/Cool-Wave-600x1024.jpg"));
 		} catch (Exception e) {
-			background = new BufferedImage(1024, 600, Transparency.TRANSLUCENT);
+			background = (Image) new BufferedImage(1024, 600, BufferedImage.TRANSLUCENT);
 			Graphics g = background.getGraphics();
 			g.setColor(Color.BLUE);
 			g.fillRect(0, 0, 1024, 600);

@@ -17,13 +17,11 @@ public class PlayerPiercingBullet extends Bullet {
 	private final boolean INFINISHOT;
 	final boolean lolface = true;
 
-    @Override
-	public int getWIDTH(){
+    public int getWIDTH(){
         return WIDTH;
     }
 
-    @Override
-	public int getHEIGHT(){
+    public int getHEIGHT(){
         return HEIGHT;
     }
 
@@ -44,7 +42,6 @@ public class PlayerPiercingBullet extends Bullet {
 		INFINISHOT = b;
 	}
 	
-	@Override
 	public int tick() {
 		oldX = x;
 		oldY = y;

@@ -70,11 +70,10 @@ public class CollisionParticle extends Entity {
 		this.damage = damage;
 	}
 
-	@Override
 	public int tick() {
 		if (life < moveLife) {
-			x += Math.cos((angleDeg * Math.PI) / 180d) * speed;
-			y += Math.sin((angleDeg * Math.PI) / 180d) * speed;
+			x += Math.cos(((double) angleDeg * Math.PI) / 180d) * speed;
+			y += Math.sin(((double) angleDeg * Math.PI) / 180d) * speed;
 		}
 		speed /= DECAY;
 		if (life > renderLife)
@@ -101,7 +100,6 @@ public class CollisionParticle extends Entity {
 		return 0;
 	}
 
-	@Override
 	public void render(Graphics g) {
 		if (alive) {
 			g.setColor(color);

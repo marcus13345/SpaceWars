@@ -16,13 +16,11 @@ public class PlayerImpactBullet extends Bullet {
 	private boolean alive = true;
 	private final int level;
 
-    @Override
-	public int getWIDTH(){
+    public int getWIDTH(){
         return WIDTH;
     }
 
-    @Override
-	public int getHEIGHT(){
+    public int getHEIGHT(){
         return HEIGHT;
     }
 
@@ -42,7 +40,6 @@ public class PlayerImpactBullet extends Bullet {
 		this.level = level;
 	}
 
-	@Override
 	public int tick() {
 		if (alive) {
 			if (direction == Direction.UP) {
@@ -71,7 +68,6 @@ public class PlayerImpactBullet extends Bullet {
 		return 0;
 	}
 
-	@Override
 	public void render(Graphics g) {
 		g.setColor(Color.BLACK);
 		if (alive)
