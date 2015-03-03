@@ -30,6 +30,7 @@ public class BasicPlayerBullet extends Bullet {
 		updateBoundingBox((int) this.x, (int) this.y, WIDTH, HEIGHT);
 	}
 
+	@Override
 	public int tick() {
 		if (alive) {
 			if (direction == Direction.UP) {
@@ -58,6 +59,7 @@ public class BasicPlayerBullet extends Bullet {
 		return 0;
 	}
 
+	@Override
 	public void render(Graphics g) {
 		g.setColor(Color.BLACK);
 		if (alive)
@@ -74,11 +76,13 @@ public class BasicPlayerBullet extends Bullet {
 		return 1;
 	}
 
-    public int getWIDTH(){
+    @Override
+	public int getWIDTH(){
         return WIDTH;
     }
 
-    public int getHEIGHT(){
+    @Override
+	public int getHEIGHT(){
         return HEIGHT;
     }
 

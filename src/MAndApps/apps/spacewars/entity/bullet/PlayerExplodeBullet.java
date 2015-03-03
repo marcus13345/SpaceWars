@@ -19,11 +19,13 @@ public class PlayerExplodeBullet extends Bullet {
 	private final int size;
 	private static final double PHI = 1.618033988749894848204586;
 
-    public int getWIDTH(){
+    @Override
+	public int getWIDTH(){
         return WIDTH;
     }
 
-    public int getHEIGHT(){
+    @Override
+	public int getHEIGHT(){
         return HEIGHT;
     }
 
@@ -45,6 +47,7 @@ public class PlayerExplodeBullet extends Bullet {
 		
 	}
 
+	@Override
 	public int tick() {
 		if (alive) {
 			if (direction == Direction.UP) {
@@ -75,6 +78,7 @@ public class PlayerExplodeBullet extends Bullet {
 		return 0;
 	}
 
+	@Override
 	public void render(Graphics g) {
 		g.setColor(Color.BLACK);
 		if (alive)

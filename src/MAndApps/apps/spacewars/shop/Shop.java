@@ -22,9 +22,9 @@ public class Shop {
 
     public void tick(){
         if(state == ON && !(animationTime > BOX_WIDTH)){
-            animationTime+=(double)(MAX_ANIMATION_TIME-animationTime)/6;
+            animationTime+=(MAX_ANIMATION_TIME-animationTime)/6;
         }else if(state == OFF && !(animationTime < 0)){
-            animationTime+=(double)(0-animationTime)/6;
+            animationTime+=(0-animationTime)/6;
         }
         if(animationTime < 0.49d){
             selection = 0;
