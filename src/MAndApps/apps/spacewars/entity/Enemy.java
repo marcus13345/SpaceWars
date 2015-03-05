@@ -7,6 +7,7 @@ import MAndApps.apps.spacewars.entity.enemy.GreenEnemy;
 import MAndApps.apps.spacewars.entity.enemy.NormalEnemy;
 import MAndApps.apps.spacewars.entity.enemy.RedEnemy;
 import MAndApps.apps.spacewars.Entity;
+import MAndApps.apps.spacewars.SpaceWars;
 
 public abstract class Enemy extends Entity {
 	public static final int NORMAL = 0;
@@ -57,4 +58,12 @@ public abstract class Enemy extends Entity {
 	public abstract void damage(int damage);
 
 	public abstract boolean isCollidable();
+	
+	@Override
+	public void collidedWith(Entity e) {
+		if(e instanceof Bullet) {
+			Bullet b = (Bullet)e;
+			damage(b.getDamage());
+		}
+	}
 }

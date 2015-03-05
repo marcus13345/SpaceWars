@@ -18,6 +18,11 @@ public class Player extends Entity {
 	private boolean A = false, S = false, D = false, W = false, alive = true;
 	private Random r = new Random();
 	private Gun gun = new Gun(Bullet.BASIC, 25, (int)x, (int)y);
+	
+	/**
+	 * go boom is a callback when it dies because it dies on tick i assume?
+	 * TODO fix that so no die on tick.
+	 */
 	private boolean goBoom = false;
 
 	public Player() {
@@ -130,67 +135,6 @@ public class Player extends Entity {
 
 	private double time = 0;
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_W:
-			W = true;
-			break;
-		case KeyEvent.VK_D:
-			D = true;
-			break;
-		case KeyEvent.VK_S:
-			S = true;
-			break;
-		case KeyEvent.VK_A:
-			A = true;
-			break;
-		case KeyEvent.VK_I:
-			shoot(Direction.UP);
-			break;
-		case KeyEvent.VK_J:
-			shoot(Direction.LEFT);
-			break;
-		case KeyEvent.VK_K:
-			shoot(Direction.DOWN);
-			break;
-		case KeyEvent.VK_L:
-			shoot(Direction.RIGHT);
-			break;
-		}
-	}
-
-	private void shoot(int direction) {
-        gun.updatePosition((int)x + WIDTH/2, (int)y + HEIGHT/2);
-		gun.shoot(direction);
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_W:
-			W = false;
-			break;
-		case KeyEvent.VK_D:
-			D = false;
-			break;
-		case KeyEvent.VK_S:
-			S = false;
-			break;
-		case KeyEvent.VK_A:
-			A = false;
-			break;
-		}
-
-	}
-
-	public void collideWithEnemy(double x, double y) {
-		goBoom = true;
-		timer = 0;
-		alive = false;
-		time = 5;
-	}
-
 	public boolean getAlive() {
 		return alive;
 	}
@@ -198,5 +142,21 @@ public class Player extends Entity {
 	@Override
 	public boolean isCollidable() {
 		return true;
+	}
+
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collidedWith(Entity e) {
+		if(e instanceof Enemy) {
+			goBoom = true;
+			timer = 0;
+			alive = false;
+			time = 5;
+		}
 	}
 }

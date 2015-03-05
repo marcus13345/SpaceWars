@@ -30,4 +30,10 @@ public abstract class Entity extends BasicTickAndRender{
 	}
 	
 	public abstract boolean isCollidable();
+
+	public abstract void die();
+
+	public abstract boolean getAlive();
+	
+	public abstract void collidedWith(Entity e);
 }

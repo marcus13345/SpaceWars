@@ -5,16 +5,18 @@ import java.awt.Graphics;
 import java.util.Random;
 import java.util.Stack;
 
+import MAndApps.apps.spacewars.Entity;
 import MAndApps.apps.spacewars.Particle;
 
 
-public class Explosion {
+public class Explosion extends Entity{
 	private Stack<Particle> bits = new Stack<Particle>();
 	private Random rand = new Random();
 	private final double SPEED, DECAY;
 	private final int r, g, b, variant;
 	private final boolean singleVariant;
 	public Explosion(double speed, double decay, int r, int g, int b, int variant, boolean singleVariant){
+		super(0, 0, 1, 1);
 		SPEED = speed;
 		DECAY = decay;
 		this.r = r;
@@ -23,7 +25,8 @@ public class Explosion {
 		this.variant = variant;
 		this.singleVariant = singleVariant;
 	}
-	public void tick() {
+	
+	public int tick() {
 		for(int i = 0; i < bits.size(); i++)
 			bits.elementAt(i).tick();
 		int i = 0;
@@ -34,6 +37,7 @@ public class Explosion {
 				i++;
 			}
 		}
+		return 0;
 	}
 
 	public void render(Graphics g, int line) {
@@ -76,6 +80,28 @@ public class Explosion {
 			if(bits.elementAt(i).getAlive())
 				alive = true;
 		return alive;
+	}
+	@Override
+	public boolean isCollidable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void render(Graphics g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collidedWith(Entity e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

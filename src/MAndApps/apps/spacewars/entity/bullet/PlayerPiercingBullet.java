@@ -3,6 +3,7 @@ package MAndApps.apps.spacewars.entity.bullet;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import MAndApps.apps.spacewars.Entity;
 import MAndApps.apps.spacewars.SpaceWars;
 import MAndApps.apps.spacewars.entity.Bullet;
 import MAndApps.apps.spacewars.tools.Direction;
@@ -61,16 +62,7 @@ public class PlayerPiercingBullet extends Bullet {
 				break;
 			}
 			updateBoundingBox((int) x, (int) y, WIDTH, HEIGHT);
-			for (int i = 0; i < SpaceWars.getEnemies().size() && hits < MAX_HITS; i++) {
-				if (SpaceWars.getEnemies().get(i).getBoundingBox().intersectsLine((int)x, (int)y, (int)oldX, (int)oldY)) {
-					hits++;
-					SpaceWars.getEnemies().get(i).damage(getDamage());
-					if(hits >= MAX_HITS){
-						alive = false;
-						i = SpaceWars.getEnemies().size();
-					}
-				}
-			}
+			
 			if(x > SpaceWars.getWIDTH() || x < 0 - WIDTH || y > SpaceWars.getHEIGHT() || y < 0 - HEIGHT){
 				alive = false;
 			}
@@ -97,5 +89,17 @@ public class PlayerPiercingBullet extends Bullet {
 	
 	public boolean isCollidable() {
 		return true;
+	}
+
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collidedWith(Entity e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

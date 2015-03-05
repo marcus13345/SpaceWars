@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
+import MAndApps.apps.spacewars.Entity;
 import MAndApps.apps.spacewars.SpaceWars;
 import MAndApps.apps.spacewars.entity.Enemy;
 
@@ -178,5 +179,17 @@ public class NormalEnemy extends Enemy {
 
 	public boolean isCollidable() {
 		return true;
+	}
+
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collidedWith(Entity e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

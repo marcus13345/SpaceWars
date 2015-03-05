@@ -18,6 +18,8 @@ import javax.imageio.ImageIO;
 
 import MAndApps.apps.spacewars.entity.Enemy;
 import MAndApps.apps.spacewars.entity.Player;
+import MAndApps.apps.spacewars.entity.enemy.NormalEnemy;
+import MAndApps.apps.spacewars.entity.enemy.RedEnemy;
 import MAndApps.apps.spacewars.tools.Explosion;
 import MAndEngine.BasicApp;
 
@@ -27,10 +29,8 @@ public class SpaceWars implements BasicApp {
 	private static boolean debug = false;
 	private static final int WIDTH = 1024, HEIGHT = 600;
 	private static Image background;
-	private static Random r = new Random();
-	private static ArrayList<Enemy> entities = new ArrayList<Enemy>();
+	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	private static Player player = new Player();
-	private static ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 
 	//
 	public static final Font defaultFont = new Font("Ubuntu", Font.BOLD, 10);
@@ -40,49 +40,41 @@ public class SpaceWars implements BasicApp {
 
 	@Override
 	public void tick() {
-		
+
 		// ticks enemies
 		for (int i = 0; i < entities.size(); i++)
 			entities.get(i).tick();
-		
-		// tick explosions
-		for (int i = 0; i < explosions.size(); i++)
-			explosions.get(i).tick();
-		
-		// tick player object
-		Rectangle playerRect = player.getBoundingBox();
-		if (player.getAlive())
-			for (int i = 0; i < entities.size(); i++)
-				if (entities.get(i).isCollidable() && entities.get(i).getBoundingBox().intersects(playerRect))
-					player.collideWithEnemy(entities.get(i).getX(), entities.get(i).getY());
-		
-		int i = 0;
-		while (i < entities.size()) {
-			if (!entities.get(i).getAlive()) {
-				
-				BOOM( 75, 1.2, entities.get(i).getColor().getRed()-50,
-				entities.get(i).getColor().getGreen()-50,
-				entities.get(i).getColor().getBlue()-50, 50,
-				(int)entities.get(i).getX(),
-				(int)entities.get(i).getY(), 550, true, true, 10 );
-				
-				entities.remove(i);
 
+		// check dem collisions yo
+		for (int i = 0; i < entities.size(); i++) {
+			Entity e1 = entities.get(i);
+			if (e1.isCollidable()) {
+				for (int j = i + 1; j < entities.size(); j++) {
+					Entity e2 = entities.get(j);
+					if(e2.isCollidable()) {
+						
+						//because efficiency.
+						e1.collidedWith(e2);
+						e2.collidedWith(e1);
+						
+					}
+				}
+			}
+
+		}
+
+		// cleanup method.
+		for (int i = 0; i < entities.size();) {
+			Entity entity = entities.get(i);
+			if (!entity.getAlive()) {
+				entity.die();
+				entities.remove(i);
 			} else
 				i++;
 		}
-
-		i = 0;
-		while (i < explosions.size()) {
-			if (!explosions.get(i).getAlive()) {
-				explosions.remove(i);
-			} else {
-				i++;
-			}
-		}
 	}
 
-	public static ArrayList<Enemy> getEnemies() {
+	public static ArrayList<Entity> getEnemies() {
 		return entities;
 	}
 
@@ -96,11 +88,7 @@ public class SpaceWars implements BasicApp {
 
 			g.setFont(defaultFont);
 			g.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
-
-			for (int i = 0; i < explosions.size(); i++)
-				explosions.get(i).render(g, i);
-
-			player.render(g);
+			
 			for (int i = 0; i < entities.size(); i++)
 				entities.get(i).render(g);
 
@@ -136,6 +124,10 @@ public class SpaceWars implements BasicApp {
 	public void initialize() {
 		try {
 			background = ImageIO.read(new URL("http://wallpaperswiki.org/wallpapers/2012/11/Wallpaper-Abstract-Wallpaper-Background-Texture-Texture-Yellow-Pictures-600x1024.jpg"));
+			entities.add(player);
+			entities.add(new NormalEnemy(0, 0));
+			entities.add(new NormalEnemy(0, 0));
+			entities.add(new NormalEnemy(0, 0));
 		} catch (Exception e) {
 			background = (Image) new BufferedImage(1024, 600, BufferedImage.TRANSLUCENT);
 			Graphics g = background.getGraphics();
@@ -146,7 +138,7 @@ public class SpaceWars implements BasicApp {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+
 	}
 
 	@Override
@@ -177,14 +169,14 @@ public class SpaceWars implements BasicApp {
 	}
 
 	public static void BOOM(double speed, double decay, int r, int g, int b, int variant, int x, int y, int size, boolean singleVariant, boolean bubble, int sizeOfParticles) {
-		
+
 		Explosion explosion = new Explosion(speed, decay, r, g, b, variant, singleVariant);
-		
-		explosions.add(explosion);
+
+		entities.add((Entity) explosion);
 		explosion.goBoom(x, y, size, bubble, sizeOfParticles);
-		
+
 	}
-	
+
 	@Override
 	public boolean visibleInMenu() {
 		return true;
@@ -200,11 +192,11 @@ public class SpaceWars implements BasicApp {
 
 	@Override
 	public void resized(int width, int height) {
-		
+
 	}
 
 	@Override
 	public void click() {
-		
+
 	}
 }

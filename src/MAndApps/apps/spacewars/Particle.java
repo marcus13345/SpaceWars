@@ -101,4 +101,16 @@ public class Particle extends Entity{
 	public boolean isCollidable() {
 		return false;
 	}
+
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collidedWith(Entity e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
