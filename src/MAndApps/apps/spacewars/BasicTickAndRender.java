@@ -1,4 +1,5 @@
-package MAndApps.apps.spacewars.tools;
+package MAndApps.apps.spacewars;
+
 
 import java.awt.Graphics;
 

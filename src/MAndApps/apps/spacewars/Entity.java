@@ -4,9 +4,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
-import MAndApps.apps.spacewars.tools.BasicTickAndRender;
-
-public abstract class Entity extends BasicTicAndRender{
+public abstract class Entity extends BasicTickAndRender{
 	private Rectangle boundingBox;
 	private Random r = new Random();
 	public Entity(int x, int y, int width, int height){

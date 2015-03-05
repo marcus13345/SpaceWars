@@ -2,7 +2,6 @@ package MAndApps.apps.spacewars.entity;
 
 import MAndApps.apps.spacewars.Entity;
 import MAndApps.apps.spacewars.entity.bullet.BasicPlayerBullet;
-import MAndApps.apps.spacewars.entity.bullet.PlayerExplodeBullet;
 import MAndApps.apps.spacewars.entity.bullet.PlayerImpactBullet;
 import MAndApps.apps.spacewars.entity.bullet.PlayerPiercingBullet;
 
@@ -20,16 +19,6 @@ public abstract class Bullet extends Entity {
 	public static final int PLAYER_PIERCE_EIGHT = 8;
 	public static final int PLAYER_PIERCE_NINE = 9;
 	public static final int PLAYER_PIERCE_TEN = 10; 
-	public static final int PLAYER_EXPLOSIVE_ONE = 11;
-	public static final int PLAYER_EXPLOSIVE_TWO = 12;
-	public static final int PLAYER_EXPLOSIVE_THREE = 13;
-	public static final int PLAYER_EXPLOSIVE_FOUR = 14;
-	public static final int PLAYER_EXPLOSIVE_FIVE = 15;
-	public static final int PLAYER_EXPLOSIVE_SIX = 16;
-	public static final int PLAYER_EXPLOSIVE_SEVEN = 17;
-	public static final int PLAYER_EXPLOSIVE_EIGHT = 18;
-	public static final int PLAYER_EXPLOSIVE_NINE = 19;
-	public static final int PLAYER_EXPLOSIVE_TEN = 20;
 	public static final int PLAYER_IMPACT_ONE = 21;
 	public static final int PLAYER_IMPACT_TWO = 22;
 	public static final int PLAYER_IMPACT_THREE = 23;
@@ -75,26 +64,6 @@ public abstract class Bullet extends Entity {
                 return 4;
             case PLAYER_PIERCE_TEN:
                 return 2;
-            case PLAYER_EXPLOSIVE_ONE:
-                return 50;
-            case PLAYER_EXPLOSIVE_TWO:
-                return 48;
-            case PLAYER_EXPLOSIVE_THREE:
-                return 46;
-            case PLAYER_EXPLOSIVE_FOUR:
-                return 44;
-            case PLAYER_EXPLOSIVE_FIVE:
-                return 42;
-            case PLAYER_EXPLOSIVE_SIX:
-                return 40;
-            case PLAYER_EXPLOSIVE_SEVEN:
-                return 38;
-            case PLAYER_EXPLOSIVE_EIGHT:
-                return 36;
-            case PLAYER_EXPLOSIVE_NINE:
-                return 34;
-            case PLAYER_EXPLOSIVE_TEN:
-                return 32;
             case PLAYER_GODMODE:
                 return 0;
             default:
@@ -139,26 +108,6 @@ public abstract class Bullet extends Entity {
 			return new PlayerPiercingBullet(direction, x, y, 10, false);
 		case PLAYER_PIERCE_TEN:
 			return new PlayerPiercingBullet(direction, x, y, 15, true);	
-		case PLAYER_EXPLOSIVE_ONE:
-			return new PlayerExplodeBullet(direction, x, y, 2);
-		case PLAYER_EXPLOSIVE_TWO:
-			return new PlayerExplodeBullet(direction, x, y, 3);
-		case PLAYER_EXPLOSIVE_THREE:
-			return new PlayerExplodeBullet(direction, x , y, 4);
-		case PLAYER_EXPLOSIVE_FOUR:
-			return new PlayerExplodeBullet(direction, x, y, 5);
-		case PLAYER_EXPLOSIVE_FIVE:
-			return new PlayerExplodeBullet(direction, x, y, 6);
-		case PLAYER_EXPLOSIVE_SIX:
-			return new PlayerExplodeBullet(direction, x, y, 7);
-		case PLAYER_EXPLOSIVE_SEVEN:
-			return new PlayerExplodeBullet(direction, x, y, 8);
-		case PLAYER_EXPLOSIVE_EIGHT:
-			return new PlayerExplodeBullet(direction, x, y, 9);
-		case PLAYER_EXPLOSIVE_NINE:
-			return new PlayerExplodeBullet(direction, x, y, 10);
-		case PLAYER_EXPLOSIVE_TEN:
-			return new PlayerExplodeBullet(direction, x, y, 15); 
 		case PLAYER_IMPACT_ONE:
 			return new PlayerImpactBullet(direction, x, y, 1);
 		case PLAYER_IMPACT_TWO:
@@ -180,7 +129,6 @@ public abstract class Bullet extends Entity {
 		case PLAYER_IMPACT_TEN:
 			return new PlayerImpactBullet(direction, x, y, 10);
 		case PLAYER_GODMODE:
-			return new PlayerExplodeBullet(direction, x, y, 200);
 		default://if the bullet type passed in for this function is not one of the above cases..
 			return new BasicPlayerBullet(direction, x, y);//return it a basic bullet.
 		}

@@ -1,10 +1,8 @@
-package MAndApps.apps.spacewars.tools;
+package MAndApps.apps.spacewars;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
-
-import MAndApps.apps.spacewars.SpaceWars;
 
 
 public class Particle extends Entity{

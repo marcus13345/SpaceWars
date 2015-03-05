@@ -6,7 +6,7 @@ import MAndApps.apps.spacewars.entity.enemy.BlueEnemy;
 import MAndApps.apps.spacewars.entity.enemy.GreenEnemy;
 import MAndApps.apps.spacewars.entity.enemy.NormalEnemy;
 import MAndApps.apps.spacewars.entity.enemy.RedEnemy;
-import MAndApps.apps.spacewars.tools.Entity;
+import MAndApps.apps.spacewars.Entity;
 
 public abstract class Enemy extends Entity {
 	public static final int NORMAL = 0;
