@@ -174,4 +174,8 @@ public class BlueEnemy extends Enemy {
 	public int getWorth(){
 		return r.nextInt(3)+1;
 	}
+	
+	public boolean isCollidable() {
+		return true;
+	}
 }

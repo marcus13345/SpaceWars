@@ -171,4 +171,9 @@ public class RedEnemy extends Enemy {
     public int getWorth(){
         return (int)(Math.random() * 3)+1;
     }
+
+	@Override
+	public boolean isCollidable() {
+		return true;
+	}
 }

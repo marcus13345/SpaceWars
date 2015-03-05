@@ -6,7 +6,7 @@ import java.util.Random;
 
 import MAndApps.apps.spacewars.tools.BasicTickAndRender;
 
-public abstract class Entity extends BasicTickAndRender{
+public abstract class Entity extends BasicTicAndRender{
 	private Rectangle boundingBox;
 	private Random r = new Random();
 	public Entity(int x, int y, int width, int height){
@@ -30,4 +30,6 @@ public abstract class Entity extends BasicTickAndRender{
 	public Rectangle getBoundingBox(){
 		return boundingBox;
 	}
+	
+	public abstract boolean isCollidable();
 }

@@ -89,8 +89,8 @@ public class CollisionParticle extends Entity {
 		if(active){
 			Rectangle r = getBoundingBox();
 			for (int i = 0; i < SpaceWars.getEnemies().size(); i++) {
-				if (r.intersects(SpaceWars.getEnemies().elementAt(i).getBoundingBox())) {
-					SpaceWars.getEnemies().elementAt(i).damage(damage);
+				if (r.intersects(SpaceWars.getEnemies().get(i).getBoundingBox())) {
+					SpaceWars.getEnemies().get(i).damage(damage);
 					//active = false;
 					i = SpaceWars.getEnemies().size();
 				}

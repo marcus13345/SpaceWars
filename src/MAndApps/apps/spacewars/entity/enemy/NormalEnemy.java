@@ -11,10 +11,8 @@ public class NormalEnemy extends Enemy {
 	private int health = 2;
 	private final int MAX_HEALTH = health;
 	private static final int WIDTH = 16, HEIGHT = 16, PROXIMITY = 200;
-	private double x, y, time = 0, desiredX, desiredY, Xmod, Ymod, dx = 0,
-			dy = 0;
-	private static final double ACC = 0.005, MAXSPEED = 1, DEAD_ACC = 0.5d,
-			DEAD_MAXSPEED = 5;
+	private double x, y, time = 0, desiredX, desiredY, Xmod, Ymod, dx = 0, dy = 0;
+	private static final double ACC = 0.005, MAXSPEED = 1, DEAD_ACC = 0.5d, DEAD_MAXSPEED = 5;
 	private Color color;
 	private boolean debug = false, alive = true;
 	private double healthBar = 1;
@@ -25,13 +23,13 @@ public class NormalEnemy extends Enemy {
 		this.y = y;
 		final int LOW = 200, HIGH = 256, color = rand(LOW, HIGH);
 		this.color = new Color(color, color, color);
-		
+
 	}
 
-	@Override 
+	@Override
 	public int tick() {
 		// epic AI
-		if((int)healthBar <= 0){
+		if ((int) healthBar <= 0) {
 			alive = false;
 		}
 		if (alive) {
@@ -131,28 +129,31 @@ public class NormalEnemy extends Enemy {
 
 	private Random r = new Random();
 	private int absoluteTime = 0;
-	
+
 	@Override
 	public void render(Graphics g) {
 		g.setColor(color);
 		int temp;
-		try{
-			temp = r.nextInt((int)(0-((double)absoluteTime/20d))+5);
-		}catch(Exception e){
+		try {
+			temp = r.nextInt((int) (0 - ((double) absoluteTime / 20d)) + 5);
+		} catch (Exception e) {
 			temp = 0;
 		}
-		
-		if (temp == 0) if (alive) g.fillRect((int) x, (int) y, WIDTH, HEIGHT);
-		if (debug) g.drawLine((int) x, (int) y, (int) desiredX, (int) desiredY);
-		
-		healthBar += ((((double)health/(double)MAX_HEALTH)*16) - healthBar)/6;
-		//healthbar
+
+		if (temp == 0)
+			if (alive)
+				g.fillRect((int) x, (int) y, WIDTH, HEIGHT);
+		if (debug)
+			g.drawLine((int) x, (int) y, (int) desiredX, (int) desiredY);
+
+		healthBar += ((((double) health / (double) MAX_HEALTH) * 16) - healthBar) / 6;
+		// healthbar
 		g.setColor(Color.RED);
-		g.fillRect((int)x, (int)y, WIDTH - 1, 3);
+		g.fillRect((int) x, (int) y, WIDTH - 1, 3);
 		g.setColor(Color.GREEN);
-		g.fillRect((int)x, (int)y, (int)healthBar, 3);
+		g.fillRect((int) x, (int) y, (int) healthBar, 3);
 		g.setColor(Color.BLACK);
-		g.drawRect((int)x, (int)y, WIDTH - 1, 3);
+		g.drawRect((int) x, (int) y, WIDTH - 1, 3);
 	}
 
 	@Override
@@ -169,9 +170,13 @@ public class NormalEnemy extends Enemy {
 	public Color getColor() {
 		return color;
 	}
-	
+
 	@Override
-	public int getWorth(){
-		return r.nextInt(3)+1;
+	public int getWorth() {
+		return r.nextInt(3) + 1;
+	}
+
+	public boolean isCollidable() {
+		return true;
 	}
 }

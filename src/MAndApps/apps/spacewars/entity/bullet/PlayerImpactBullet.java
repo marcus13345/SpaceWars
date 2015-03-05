@@ -55,8 +55,8 @@ public class PlayerImpactBullet extends Bullet {
 			updateBoundingBox((int) x, (int) y, WIDTH, HEIGHT);
 			Rectangle r = getBoundingBox();
 			for (int i = 0; i < SpaceWars.getEnemies().size(); i++) {
-				if (r.intersects(SpaceWars.getEnemies().elementAt(i).getBoundingBox())) {
-					SpaceWars.getEnemies().elementAt(i).damage(getDamage());
+				if (r.intersects(SpaceWars.getEnemies().get(i).getBoundingBox())) {
+					SpaceWars.getEnemies().get(i).damage(getDamage());
 					alive = false;
 					i = SpaceWars.getEnemies().size();
 				}
@@ -83,5 +83,8 @@ public class PlayerImpactBullet extends Bullet {
 	public int getDamage() {
 		return 1;
 	}
-
+	
+	public boolean isCollidable() {
+		return true;
+	}
 }

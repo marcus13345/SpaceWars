@@ -62,9 +62,9 @@ public class PlayerPiercingBullet extends Bullet {
 			}
 			updateBoundingBox((int) x, (int) y, WIDTH, HEIGHT);
 			for (int i = 0; i < SpaceWars.getEnemies().size() && hits < MAX_HITS; i++) {
-				if (SpaceWars.getEnemies().elementAt(i).getBoundingBox().intersectsLine((int)x, (int)y, (int)oldX, (int)oldY)) {
+				if (SpaceWars.getEnemies().get(i).getBoundingBox().intersectsLine((int)x, (int)y, (int)oldX, (int)oldY)) {
 					hits++;
-					SpaceWars.getEnemies().elementAt(i).damage(getDamage());
+					SpaceWars.getEnemies().get(i).damage(getDamage());
 					if(hits >= MAX_HITS){
 						alive = false;
 						i = SpaceWars.getEnemies().size();
@@ -93,5 +93,9 @@ public class PlayerPiercingBullet extends Bullet {
 	@Override
 	public int getDamage(){
 		return 2;
+	}
+	
+	public boolean isCollidable() {
+		return true;
 	}
 }

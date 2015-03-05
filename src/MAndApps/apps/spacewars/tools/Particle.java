@@ -98,4 +98,9 @@ public class Particle extends Entity{
 	public boolean getAlive() {
 		return alive;
 	}
+	
+	@Override
+	public boolean isCollidable() {
+		return false;
+	}
 }

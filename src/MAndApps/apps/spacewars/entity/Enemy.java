@@ -55,4 +55,6 @@ public abstract class Enemy extends Entity {
 	}
 
 	public abstract void damage(int damage);
+
+	public abstract boolean isCollidable();
 }
