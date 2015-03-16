@@ -23,9 +23,21 @@ import MAndApps.apps.spacewars.tools.Explosion;
 import MAndEngine.BasicApp;
 import MAndEngine.Engine;
 
+/**
+ * main basicapp class that takes care of managing the abstract concepts of the game. 
+ * like the shop, the player's level and experience, what enemies and explosion particles
+ * are laying around.
+ * 
+ * this is somewhat old architecture and some half finished new architecture can be found
+ * in the screensaver branch as i plan to make this both a game and a screen saver with
+ * a player AI. as well, some of these concepts will be ported over to mand engine
+ * once they are abstracted a little better.
+ * 
+ * @author mgosselin
+ *
+ */
 public class SpaceWars implements BasicApp {
 
-	//
 	private static boolean paused = false, debug = false;
 	private static int redPoints = 0, bluePoints = 0, greenPoints = 0, time = 0;
 	private static final int WIDTH = 1024, HEIGHT = 600;
@@ -47,7 +59,7 @@ public class SpaceWars implements BasicApp {
 
 	@Override
 	public void tick() {
-		addEXP(1);
+		//addEXP(1);
 		if (!paused && !shopping) {
 			time++;
 			// ticks enemy stack
@@ -66,14 +78,14 @@ public class SpaceWars implements BasicApp {
 			int i = 0;
 			while (i < enemies.size()) {
 				if (!enemies.elementAt(i).getAlive()) {
-					/*
-					 * BOOM( 75, 1.2,
-					 * enemies.elementAt(i).getColor().getRed()-50,
-					 * enemies.elementAt(i).getColor().getGreen()-50,
-					 * enemies.elementAt(i).getColor().getBlue()-50, 50,
-					 * (int)enemies.elementAt(i).getX(),
-					 * (int)enemies.elementAt(i).getY(), 550, true, true, 10 );
-					 */
+					
+					 BOOM( 75, 1.2,
+					 enemies.elementAt(i).getColor().getRed()-50,
+					 enemies.elementAt(i).getColor().getGreen()-50,
+					 enemies.elementAt(i).getColor().getBlue()-50, 50,
+					 (int)enemies.elementAt(i).getX(),
+					 (int)enemies.elementAt(i).getY(), 550, true, true, 10 );
+					 
 
 					addRedPoints(enemies.elementAt(i).getColor().getRed());
 					addGreenPoints(enemies.elementAt(i).getColor().getGreen());
@@ -81,7 +93,7 @@ public class SpaceWars implements BasicApp {
 					log("You gained " + enemies.elementAt(i).getWorth() + " exp.");
 					addEXP(enemies.elementAt(i).getWorth());
 
-					// enemies.remove(i);
+					enemies.remove(i);
 
 				} else
 					i++;
@@ -187,7 +199,10 @@ public class SpaceWars implements BasicApp {
 	@Override
 	public void initialize() {
 		try {
-			background = ImageIO.read(new URL("http://wallpapersus.com/wallpapers/2012/10/Cool-Wave-600x1024.jpg"));
+
+			for(int i = 0; i < 10; i ++)
+				enemies.add(Enemy.getNewEnemy(Enemy.NORMAL, 0, 0));
+			background = ImageIO.read(new URL("http://wallpaperswiki.org/wallpapers/2012/11/Wallpaper-Abstract-Wallpaper-Background-Texture-Texture-Yellow-Pictures-600x1024.jpg"));
 		} catch (Exception e) {
 			background = (Image) new BufferedImage(1024, 600, BufferedImage.TRANSLUCENT);
 			Graphics g = background.getGraphics();
@@ -206,6 +221,7 @@ public class SpaceWars implements BasicApp {
 		} else if (e.getKeyCode() == KeyEvent.VK_E) {
 			xp = xpToNextLVL - 1;
 		} else if (e.getKeyCode() == KeyEvent.VK_Q) {
+			System.out.println("YOEIRGSODBH");
 			debug = !debug;
 		} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			shopping = !shopping;
