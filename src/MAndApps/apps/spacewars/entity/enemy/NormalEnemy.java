@@ -172,11 +172,6 @@ public class NormalEnemy extends Enemy {
 		return color;
 	}
 
-	@Override
-	public int getWorth() {
-		return r.nextInt(3) + 1;
-	}
-
 	public boolean isCollidable() {
 		return true;
 	}

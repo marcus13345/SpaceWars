@@ -51,12 +51,12 @@ public class SpaceWars implements BasicApp {
 			if (e1.isCollidable()) {
 				for (int j = i + 1; j < entities.size(); j++) {
 					Entity e2 = entities.get(j);
-					if(e2.isCollidable()) {
-						
-						//because efficiency.
+					if (e2.isCollidable()) {
+
+						// because efficiency.
 						e1.collidedWith(e2);
 						e2.collidedWith(e1);
-						
+
 					}
 				}
 			}
@@ -88,7 +88,7 @@ public class SpaceWars implements BasicApp {
 
 			g.setFont(defaultFont);
 			g.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
-			
+
 			for (int i = 0; i < entities.size(); i++)
 				entities.get(i).render(g);
 
@@ -123,11 +123,10 @@ public class SpaceWars implements BasicApp {
 	@Override
 	public void initialize() {
 		try {
-			background = ImageIO.read(new URL("http://wallpaperswiki.org/wallpapers/2012/11/Wallpaper-Abstract-Wallpaper-Background-Texture-Texture-Yellow-Pictures-600x1024.jpg"));
+			background = ImageIO.read(new URL("http://wallpaperswiki.org/2012/11/Wallpaper-Abstract-Wallpaper-Background-Texture-Texture-Yellow-Pictures-600x1024.jpg"));
 			entities.add(player);
-			entities.add(new NormalEnemy(0, 0));
-			entities.add(new NormalEnemy(0, 0));
-			entities.add(new NormalEnemy(0, 0));
+			for (int i = 0; i < 100; i++)
+				entities.add(new NormalEnemy(0, 0));
 		} catch (Exception e) {
 			background = (Image) new BufferedImage(1024, 600, BufferedImage.TRANSLUCENT);
 			Graphics g = background.getGraphics();

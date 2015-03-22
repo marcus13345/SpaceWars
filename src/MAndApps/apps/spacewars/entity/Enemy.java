@@ -51,10 +51,6 @@ public abstract class Enemy extends Entity {
 	public abstract boolean getAlive();
 	public abstract Color getColor();
 
-	public int getWorth() {
-		return 1;
-	}
-
 	public abstract void damage(int damage);
 
 	public abstract boolean isCollidable();
