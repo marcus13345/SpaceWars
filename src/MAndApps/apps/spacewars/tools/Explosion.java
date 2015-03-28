@@ -16,7 +16,6 @@ public class Explosion extends Entity{
 	private final int r, g, b, variant;
 	private final boolean singleVariant;
 	public Explosion(double speed, double decay, int r, int g, int b, int variant, boolean singleVariant){
-		super(0, 0, 1, 1);
 		SPEED = speed;
 		DECAY = decay;
 		this.r = r;

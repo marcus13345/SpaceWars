@@ -22,6 +22,7 @@ import MAndApps.apps.spacewars.entity.enemy.NormalEnemy;
 import MAndApps.apps.spacewars.entity.enemy.RedEnemy;
 import MAndApps.apps.spacewars.tools.Explosion;
 import MAndEngine.BasicApp;
+import MAndEngine.ImageCreator;
 
 public class SpaceWars implements BasicApp {
 
@@ -123,7 +124,10 @@ public class SpaceWars implements BasicApp {
 	@Override
 	public void initialize() {
 		try {
-			background = ImageIO.read(new URL("http://wallpaperswiki.org/2012/11/Wallpaper-Abstract-Wallpaper-Background-Texture-Texture-Yellow-Pictures-600x1024.jpg"));
+			//background = ImageIO.read(new URL("http://wallpaperswiki.org/2012/11/Wallpaper-Abstract-Wallpaper-Background-Texture-Texture-Yellow-Pictures-600x1024.jpg"));
+			
+			background = ImageCreator.colorNoise(Color.WHITE, .4, .6, WIDTH, HEIGHT);
+			
 			entities.add(player);
 			for (int i = 0; i < 100; i++)
 				entities.add(new NormalEnemy(0, 0));

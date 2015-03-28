@@ -12,19 +12,26 @@ public class NormalEnemy extends Enemy {
 	private int health = 2;
 	private final int MAX_HEALTH = health;
 	private static final int WIDTH = 16, HEIGHT = 16, PROXIMITY = 200;
-	private double x, y, time = 0, desiredX, desiredY, Xmod, Ymod, dx = 0, dy = 0;
+	private double time = 0, desiredX, desiredY, Xmod, Ymod;
 	private static final double ACC = 0.005, MAXSPEED = 1, DEAD_ACC = 0.5d, DEAD_MAXSPEED = 5;
 	private Color color;
-	private boolean debug = false, alive = true;
+	private boolean debug = true, alive = true;
 	private double healthBar = 1;
+	private final double reEvaluateTime;
 
 	public NormalEnemy(int x, int y) {
+		this(x, y, Math.random());
+	}
+	
+	public NormalEnemy(int x, int y, double hyperness) {
 		super(x, y, 16, 16);
 		this.x = x;
 		this.y = y;
 		final int LOW = 200, HIGH = 256, color = rand(LOW, HIGH);
 		this.color = new Color(color, color, color);
 
+		reEvaluateTime = 1 - hyperness;
+		
 	}
 
 	@Override
@@ -35,7 +42,7 @@ public class NormalEnemy extends Enemy {
 		}
 		if (alive) {
 			if (SpaceWars.getPlayer().getAlive()) {
-				if (time > 0.4d) {
+				if (time > reEvaluateTime) {
 					time = 0;
 					Xmod = rand(-PROXIMITY, PROXIMITY);
 					Ymod = rand(-PROXIMITY, PROXIMITY);
@@ -70,7 +77,7 @@ public class NormalEnemy extends Enemy {
 
 			} else {
 
-				if (time > 0.4d) {
+				if (time > reEvaluateTime) {
 					time = 0;
 					Xmod = rand(0, 1024);
 					Ymod = rand(0, 200);

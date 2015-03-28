@@ -31,7 +31,10 @@ public abstract class Enemy extends Entity {
 		GREEN_TIER_FIVE = 15;
 	
 	public Enemy(int x, int y, int width, int height) {
-		super(x, y, width, height);
+		super.x = x;
+		super.y = y;
+		super.dx = dx;
+		super.dy = dy;
 	}
 	
 	public final static Enemy getNewEnemy(int type, int x, int y){

@@ -3,10 +3,10 @@ package MAndApps.apps.spacewars;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
-
+import static MAndEngine.Utils.rand;
 
 public class Particle extends Entity{
-	private double x, y, life, speed;
+	private double life, speed;
 	private final int angleDeg, moveLife, renderLife, size;
 	private final double DECAY;
 	private boolean alive = false, bubble;
@@ -16,7 +16,6 @@ public class Particle extends Entity{
 	public Particle(int angle, double speed, int movelife, int renderlife,
 			int x, int y, double speedDecay, int r, int g, int b, int variant,
 			boolean singleVariant, boolean bubble, int sizeOfParticles) {
-        super(0, 0, 1, 1);
 		renderLife = renderlife;
 		this.speed = speed;
 		angleDeg = angle;
@@ -61,7 +60,6 @@ public class Particle extends Entity{
 		} else {
 			color = new Color(rand(0, 256), rand(0, 256), rand(0, 256));
 		}
-        updateBoundingBox((int)x, (int)y, size , size);
 
 	}
 

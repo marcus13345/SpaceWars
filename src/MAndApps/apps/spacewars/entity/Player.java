@@ -9,14 +9,12 @@ import MAndApps.apps.spacewars.SpaceWars;
 import MAndApps.apps.spacewars.gun.Gun;
 import MAndApps.apps.spacewars.tools.Direction;
 import MAndApps.apps.spacewars.Entity;
+import static MAndEngine.Utils.rand;
 
 public class Player extends Entity {
 	private final static int WIDTH = 16, HEIGHT = 16;
-	private double x = 512, y = 550;
 	private static final double ACC = 0.5, MAXSPEED = 5;
-	private double dx = 0, dy = 0;
 	private boolean A = false, S = false, D = false, W = false, alive = true;
-	private Random r = new Random();
 	private Gun gun = new Gun(Bullet.BASIC, 25, (int)x, (int)y);
 	
 	/**
@@ -26,7 +24,8 @@ public class Player extends Entity {
 	private boolean goBoom = false;
 
 	public Player() {
-		super((int) 512, (int) 550, WIDTH, HEIGHT);
+		x = 512;
+		y = 550;
 	}
 
 	@Override
@@ -110,7 +109,6 @@ public class Player extends Entity {
 			}
 			timer++;
 		}
-		updateBoundingBox((int) x, (int) y, WIDTH, HEIGHT);
 
 		return 0;
 	}
@@ -123,7 +121,7 @@ public class Player extends Entity {
 		if (alive) {
 			int temp;
 			try {
-				temp = r.nextInt((int) time);
+				temp = rand(0, (int)time);
 			} catch (Exception e) {
 				temp = 1;
 			}
