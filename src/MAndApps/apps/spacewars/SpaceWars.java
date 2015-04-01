@@ -10,8 +10,9 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.URL;
-import java.util.Random;
 import java.util.Stack;
 
 import javax.imageio.ImageIO;
@@ -27,11 +28,10 @@ public class SpaceWars implements BasicApp {
 
 	//
 	private static boolean paused = false, debug = false;
-	private static int redPoints = 0, bluePoints = 0, greenPoints = 0, time = 0;
-	private static final int WIDTH = 1024, HEIGHT = 600;
+	private static int time = 0;
+	private static int WIDTH = 1024, HEIGHT = 600;
 	private static Player player = new Player();
 	private static Image background;
-	private static Random r = new Random();
 	private static Stack<Enemy> enemies = new Stack<Enemy>();
 	private static Stack<Explosion> explosions = new Stack<Explosion>();
 	private static Stack<String> logs = new Stack<String>();
@@ -47,7 +47,7 @@ public class SpaceWars implements BasicApp {
 
 	@Override
 	public void tick() {
-		addEXP(1);
+		//addEXP(1);
 		if (!paused && !shopping) {
 			time++;
 			// ticks enemy stack
@@ -66,18 +66,7 @@ public class SpaceWars implements BasicApp {
 			int i = 0;
 			while (i < enemies.size()) {
 				if (!enemies.elementAt(i).getAlive()) {
-					/*
-					 * BOOM( 75, 1.2,
-					 * enemies.elementAt(i).getColor().getRed()-50,
-					 * enemies.elementAt(i).getColor().getGreen()-50,
-					 * enemies.elementAt(i).getColor().getBlue()-50, 50,
-					 * (int)enemies.elementAt(i).getX(),
-					 * (int)enemies.elementAt(i).getY(), 550, true, true, 10 );
-					 */
-
-					addRedPoints(enemies.elementAt(i).getColor().getRed());
-					addGreenPoints(enemies.elementAt(i).getColor().getGreen());
-					addBluePoints(enemies.elementAt(i).getColor().getBlue());
+					
 					log("You gained " + enemies.elementAt(i).getWorth() + " exp.");
 					addEXP(enemies.elementAt(i).getWorth());
 
@@ -99,10 +88,6 @@ public class SpaceWars implements BasicApp {
 			expBar += ((int) (((double) xp / (double) xpToNextLVL) * 424) - expBar) / 10;
 		}
 		shop.tick();
-		// check if there are any new items to log
-		int cap = logs.size();
-		for (int i = 0; i < cap; i++)
-			Engine.log(logs.pop());
 	}
 
 	public static void log(String s) {
@@ -122,7 +107,7 @@ public class SpaceWars implements BasicApp {
 			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 			g.setFont(defaultFont);
-			g.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
+			g.drawImage(background, 0, 0, null);
 
 			for (int i = 0; i < explosions.size(); i++)
 				explosions.elementAt(i).render(g, i);
@@ -130,16 +115,6 @@ public class SpaceWars implements BasicApp {
 			player.render(g);
 			for (int i = 0; i < enemies.size(); i++)
 				enemies.elementAt(i).render(g);
-
-			// render points
-			g.setFont(moneyFont);
-			g.setColor(Color.RED);
-			g.drawString(redPointsToString(), 10, HEIGHT - 10 - (20 * 3));
-			g.setColor(Color.GREEN);
-			g.drawString(greenPointsToString(), 10, HEIGHT - 10 - (20 * 2));
-			g.setColor(Color.BLUE);
-			g.drawString(bluePointsToString(), 10, HEIGHT - 10 - (20 * 1));
-			g.setFont(defaultFont);
 
 			// render level and xp bar.
 			g.setFont(levelFont);
@@ -181,18 +156,21 @@ public class SpaceWars implements BasicApp {
 
 	@Override
 	public Dimension getResolution() {
-		return new Dimension(WIDTH, HEIGHT);
+		System.out.println("WIDTHasdf: " + WIDTH);
+		System.out.println("HEIGHTsdf: " + HEIGHT);
+		return new Dimension(WIDTH = 1024, HEIGHT = 600);
 	}
 
 	@Override
 	public void initialize() {
 		try {
-			background = ImageIO.read(new URL("http://wallpapersus.com/wallpapers/2012/10/Cool-Wave-600x1024.jpg"));
+			background = ImageIO.read(new FileInputStream(new File("res/background.png")));
+			
 		} catch (Exception e) {
 			background = (Image) new BufferedImage(1024, 600, BufferedImage.TRANSLUCENT);
 			Graphics g = background.getGraphics();
 			g.setColor(Color.BLUE);
-			g.fillRect(0, 0, 1024, 600);
+			g.fillRect(0, 0, 3000, 2000);
 		}
 	}
 
@@ -244,39 +222,6 @@ public class SpaceWars implements BasicApp {
 	public static void BOOM(double speed, double decay, int r, int g, int b, int variant, int x, int y, int size, boolean singleVariant, boolean bubble, int sizeOfParticles) {
 		explosions.push(new Explosion(speed, decay, r, g, b, variant, singleVariant));
 		explosions.peek().goBoom(x, y, size, bubble, sizeOfParticles);
-	}
-
-	public void addRedPoints(int d) {
-		redPoints += d;
-	}
-
-	public void addGreenPoints(int d) {
-		greenPoints += d;
-	}
-
-	public void addBluePoints(int d) {
-		bluePoints += d;
-	}
-
-	private String redPointsToString() {
-		String _return = "$" + redPoints / 100d;
-		if (_return.length() == ("" + redPoints).length() + 1 || _return.length() == ("" + redPoints).length() + 3)
-			_return += "0";
-		return _return;
-	}
-
-	private String greenPointsToString() {
-		String _return = "$" + greenPoints / 100d;
-		if (_return.length() == ("" + greenPoints).length() + 1 || _return.length() == ("" + greenPoints).length() + 3)
-			_return += "0";
-		return _return;
-	}
-
-	private String bluePointsToString() {
-		String _return = "$" + bluePoints / 100d;
-		if (_return.length() == ("" + bluePoints).length() + 1 || _return.length() == ("" + bluePoints).length() + 3)
-			_return += "0";
-		return _return;
 	}
 
 	private static int getMaxXPForLvl(int lvl) {
@@ -342,5 +287,13 @@ public class SpaceWars implements BasicApp {
 
 		BOOM(75, 1.2, 100, 100, 100, 50, Engine.mouseX, Engine.mouseY, 550, true, true, 10);
 
+	}
+
+	@Override
+	public void updateDimensions(int width, int height) {
+		System.out.println("" + WIDTH);
+		System.out.println("" + HEIGHT);
+		WIDTH = width;
+		HEIGHT = height;
 	}
 }

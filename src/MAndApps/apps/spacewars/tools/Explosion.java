@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.util.Random;
 import java.util.Stack;
 
+import MAndApps.apps.spacewars.entity.Particle;
+
 
 public class Explosion {
 	private Stack<Particle> bits = new Stack<Particle>();
