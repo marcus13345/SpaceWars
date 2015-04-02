@@ -23,7 +23,10 @@ import MAndApps.apps.spacewars.shop.Shop;
 import MAndApps.apps.spacewars.tools.Explosion;
 import MAndEngine.BasicApp;
 import MAndEngine.Engine;
+<<<<<<< HEAD
 import MAndEngine.ImageCreator;
+=======
+>>>>>>> origin/master
 
 /**
  * main basicapp class that takes care of managing the abstract concepts of the game. 
@@ -88,11 +91,6 @@ public class SpaceWars implements BasicApp {
 					 (int)enemies.elementAt(i).getX(),
 					 (int)enemies.elementAt(i).getY(), 550, true, true, 10 );
 					 
-
-
-					 log("You gained " + enemies.elementAt(i).getWorth() + " exp.");
-					 addEXP(enemies.elementAt(i).getWorth());
-
 					 enemies.remove(i);
 
 				} else
@@ -185,13 +183,12 @@ g.drawString("SDFGSDFGBORNJSTBRJOSNB", 100, 100);
 	@Override
 	public void initialize() {
 		try {
-			//background = ImageIO.read(new FileInputStream(new File("res/background.png")));
 			Engine.timeScale = 1d / (1000d/(1000d/60));
 			
 			background = ImageCreator.colorNoise(Color.WHITE, .4, .6, CORRECTED_WIDTH, CORRECTED_HEIGHT);
 			for(int i = 0; i < 10; i ++)
 				enemies.add(Enemy.getNewEnemy(Enemy.NORMAL, 0, 0));
-			
+
 		} catch (Exception e) {
 			background = (Image) new BufferedImage(1024, 600, BufferedImage.TRANSLUCENT);
 			Graphics g = background.getGraphics();
@@ -210,6 +207,7 @@ g.drawString("SDFGSDFGBORNJSTBRJOSNB", 100, 100);
 		} else if (e.getKeyCode() == KeyEvent.VK_E) {
 			xp = xpToNextLVL - 1;
 		} else if (e.getKeyCode() == KeyEvent.VK_Q) {
+			System.out.println("YOEIRGSODBH");
 			debug = !debug;
 		} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			shopping = !shopping;
