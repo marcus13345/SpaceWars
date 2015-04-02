@@ -23,13 +23,27 @@ import MAndApps.apps.spacewars.shop.Shop;
 import MAndApps.apps.spacewars.tools.Explosion;
 import MAndEngine.BasicApp;
 import MAndEngine.Engine;
+import MAndEngine.ImageCreator;
 
+/**
+ * main basicapp class that takes care of managing the abstract concepts of the game. 
+ * like the shop, the player's level and experience, what enemies and explosion particles
+ * are laying around.
+ * 
+ * this is somewhat old architecture and some half finished new architecture can be found
+ * in the screensaver branch as i plan to make this both a game and a screen saver with
+ * a player AI. as well, some of these concepts will be ported over to mand engine
+ * once they are abstracted a little better.
+ * 
+ * @author mgosselin
+ *
+ */
 public class SpaceWars implements BasicApp {
 
-	//
 	private static boolean paused = false, debug = false;
 	private static int time = 0;
-	private static int WIDTH = 1024, HEIGHT = 600;
+	private static final int WIDTH = 1024, HEIGHT = 600;
+	private static int CORRECTED_WIDTH = WIDTH, CORRECTED_HEIGHT = HEIGHT;
 	private static Player player = new Player();
 	private static Image background;
 	private static Stack<Enemy> enemies = new Stack<Enemy>();
@@ -67,10 +81,19 @@ public class SpaceWars implements BasicApp {
 			while (i < enemies.size()) {
 				if (!enemies.elementAt(i).getAlive()) {
 					
-					log("You gained " + enemies.elementAt(i).getWorth() + " exp.");
-					addEXP(enemies.elementAt(i).getWorth());
+					 BOOM( 75, 1.2,
+					 enemies.elementAt(i).getColor().getRed()-50,
+					 enemies.elementAt(i).getColor().getGreen()-50,
+					 enemies.elementAt(i).getColor().getBlue()-50, 50,
+					 (int)enemies.elementAt(i).getX(),
+					 (int)enemies.elementAt(i).getY(), 550, true, true, 10 );
+					 
 
-					// enemies.remove(i);
+
+					 log("You gained " + enemies.elementAt(i).getWorth() + " exp.");
+					 addEXP(enemies.elementAt(i).getWorth());
+
+					 enemies.remove(i);
 
 				} else
 					i++;
@@ -100,7 +123,7 @@ public class SpaceWars implements BasicApp {
 
 	@Override
 	public void render(Graphics2D g) {
-
+g.drawString("SDFGSDFGBORNJSTBRJOSNB", 100, 100);
 		try {
 
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -123,7 +146,7 @@ public class SpaceWars implements BasicApp {
 			g.drawRect(330, 18, 424, 15);
 			g.fillRect(330, 18, expBar, 15);
 			g.setFont(defaultFont);
-
+			
 			if (paused) {
 				g.setFont(pausedFont);
 				g.setColor(Color.WHITE);
@@ -156,15 +179,18 @@ public class SpaceWars implements BasicApp {
 
 	@Override
 	public Dimension getResolution() {
-		System.out.println("WIDTHasdf: " + WIDTH);
-		System.out.println("HEIGHTsdf: " + HEIGHT);
-		return new Dimension(WIDTH = 1024, HEIGHT = 600);
+		return new Dimension(WIDTH, HEIGHT);
 	}
 
 	@Override
 	public void initialize() {
 		try {
-			background = ImageIO.read(new FileInputStream(new File("res/background.png")));
+			//background = ImageIO.read(new FileInputStream(new File("res/background.png")));
+			Engine.timeScale = 1d / (1000d/(1000d/60));
+			
+			background = ImageCreator.colorNoise(Color.WHITE, .4, .6, CORRECTED_WIDTH, CORRECTED_HEIGHT);
+			for(int i = 0; i < 10; i ++)
+				enemies.add(Enemy.getNewEnemy(Enemy.NORMAL, 0, 0));
 			
 		} catch (Exception e) {
 			background = (Image) new BufferedImage(1024, 600, BufferedImage.TRANSLUCENT);
@@ -210,16 +236,12 @@ public class SpaceWars implements BasicApp {
 	}
 
 	@Override
-	public int getFramerate() {
-		return 50;
-	}
-
-	@Override
 	public boolean getResizable() {
 		return false;
 	}
 
-	public static void BOOM(double speed, double decay, int r, int g, int b, int variant, int x, int y, int size, boolean singleVariant, boolean bubble, int sizeOfParticles) {
+	public static void BOOM(double speed, double decay, int r, int g, int b, int variant, 
+		int x, int y, int size, boolean singleVariant, boolean bubble, int sizeOfParticles) {
 		explosions.push(new Explosion(speed, decay, r, g, b, variant, singleVariant));
 		explosions.peek().goBoom(x, y, size, bubble, sizeOfParticles);
 	}
@@ -234,7 +256,7 @@ public class SpaceWars implements BasicApp {
 			xp -= xpToNextLVL;
 			lvl++;
 			xpToNextLVL = getMaxXPForLvl(lvl);
-			for (int j = 0; j < 424; j += 100) {
+			for (int j = 12; j < 424; j += 100) {
 				BOOM(75, 1.618, 255, 255, 255, 0, 300 + (j), 20, 200, true, false, 2);
 			}
 		}
@@ -291,9 +313,7 @@ public class SpaceWars implements BasicApp {
 
 	@Override
 	public void updateDimensions(int width, int height) {
-		System.out.println("" + WIDTH);
-		System.out.println("" + HEIGHT);
-		WIDTH = width;
-		HEIGHT = height;
+		CORRECTED_WIDTH = width;
+		CORRECTED_HEIGHT = height;
 	}
 }

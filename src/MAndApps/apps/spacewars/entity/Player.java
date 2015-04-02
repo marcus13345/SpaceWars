@@ -6,9 +6,11 @@ import java.awt.event.KeyEvent;
 import java.util.Random;
 
 import MAndApps.apps.spacewars.SpaceWars;
+import MAndApps.apps.spacewars.entity.enemy.NormalEnemy;
 import MAndApps.apps.spacewars.gun.Gun;
 import MAndApps.apps.spacewars.tools.Direction;
 import MAndApps.apps.spacewars.tools.Entity;
+import MAndEngine.Engine;
 
 public class Player extends Entity {
 	private final static int WIDTH = 16, HEIGHT = 16;
@@ -26,6 +28,10 @@ public class Player extends Entity {
 
 	@Override
 	public int tick() {
+		double ACC = Player.ACC * Engine.deltaTime / 10;
+		double dx = this.dx * Engine.deltaTime / 10;
+		double dy = this.dy * Engine.deltaTime / 10;
+		
 		if (goBoom) {
 			SpaceWars.BOOM(50, 1.2, 50, 50, 50, 30, (int) x, (int) y, 550, true,
 					false, 3);
@@ -184,85 +190,8 @@ public class Player extends Entity {
 
 	}
 
-	public void collideWithEnemy(double x, double y) {
-		goBoom = true;
-		timer = 0;
-		alive = false;
-		time = 5;
-	}
-
 	public boolean getAlive() {
 		return alive;
 	}
 
-	public void setLevel(int i) {
-		switch (i) {
-		case 2:
-			gun.switchAmmo(Bullet.PLAYER_PIERCE_ONE);
-			break;
-		case 3:
-			gun.switchAmmo(Bullet.PLAYER_PIERCE_TWO);
-			break;
-		case 4:
-			gun.switchAmmo(Bullet.PLAYER_PIERCE_THREE);
-			break;
-		case 5:
-			gun.switchAmmo(Bullet.PLAYER_PIERCE_FOUR);
-			break;
-		case 6:
-			gun.switchAmmo(Bullet.PLAYER_PIERCE_FIVE);
-			break;
-		case 7:
-			gun.switchAmmo(Bullet.PLAYER_PIERCE_SIX);
-			break;
-		case 8:
-			gun.switchAmmo(Bullet.PLAYER_PIERCE_SEVEN);
-			break;
-		case 9:
-			gun.switchAmmo(Bullet.PLAYER_PIERCE_EIGHT);
-			break;
-		case 10:
-			gun.switchAmmo(Bullet.PLAYER_PIERCE_NINE);
-			break;
-		case 11:
-			gun.switchAmmo(Bullet.PLAYER_PIERCE_TEN);
-			break;
-		case 12:
-			gun.switchAmmo(Bullet.PLAYER_EXPLOSIVE_ONE);
-			break;
-		case 13:
-			gun.switchAmmo(Bullet.PLAYER_EXPLOSIVE_TWO);
-			break;
-		case 14:
-			gun.switchAmmo(Bullet.PLAYER_EXPLOSIVE_THREE);
-			break;
-		case 15:
-			gun.switchAmmo(Bullet.PLAYER_EXPLOSIVE_FOUR);
-			break;
-		case 16:
-			gun.switchAmmo(Bullet.PLAYER_EXPLOSIVE_FIVE);
-			break;
-		case 17:
-			gun.switchAmmo(Bullet.PLAYER_EXPLOSIVE_SIX);
-			break;
-		case 18:
-			gun.switchAmmo(Bullet.PLAYER_EXPLOSIVE_SEVEN);
-			break;
-		case 19:
-			gun.switchAmmo(Bullet.PLAYER_EXPLOSIVE_EIGHT);
-			break;
-		case 20:
-			gun.switchAmmo(Bullet.PLAYER_EXPLOSIVE_NINE);
-			break;
-		case 21:
-			gun.switchAmmo(Bullet.PLAYER_EXPLOSIVE_TEN);
-			break;
-        case 22:
-            gun.switchAmmo(Bullet.PLAYER_GODMODE);
-            break;
-		}
-		if(i >= 22){
-			gun.switchAmmo(Bullet.PLAYER_GODMODE);
-		}
-	}
 }

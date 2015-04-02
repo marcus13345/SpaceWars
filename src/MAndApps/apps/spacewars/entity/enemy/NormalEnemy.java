@@ -6,17 +6,18 @@ import java.util.Random;
 
 import MAndApps.apps.spacewars.SpaceWars;
 import MAndApps.apps.spacewars.entity.Enemy;
+import MAndEngine.Engine;
 
 public class NormalEnemy extends Enemy {
 	private int health = 2;
 	private final int MAX_HEALTH = health;
 	private static final int WIDTH = 16, HEIGHT = 16, PROXIMITY = 200;
-	private double x, y, time = 0, desiredX, desiredY, Xmod, Ymod, dx = 0,
+	private double x, y, time = 0, absoluteTime = 0, desiredX, desiredY, Xmod, Ymod, dx = 0,
 			dy = 0;
 	private static final double ACC = 0.005, MAXSPEED = 1, DEAD_ACC = 0.5d,
 			DEAD_MAXSPEED = 5;
 	private Color color;
-	private boolean debug = false, alive = true;
+	private boolean debug = true, alive = true;
 	private double healthBar = 1;
 
 	public NormalEnemy(int x, int y) {
@@ -30,6 +31,9 @@ public class NormalEnemy extends Enemy {
 
 	@Override 
 	public int tick() {
+		double ACC = NormalEnemy.ACC * Engine.deltaTime;
+		double dx = this.dx * Engine.deltaTime;
+		double dy = this.dy * Engine.deltaTime;
 		// epic AI
 		if((int)healthBar <= 0){
 			alive = false;
@@ -123,27 +127,27 @@ public class NormalEnemy extends Enemy {
 				while (y < 0)
 					y++;
 		}
-		time += 0.01;
-		absoluteTime++;
+		time += 0.01 * Engine.deltaTime;
+		absoluteTime += 0.01 * Engine.deltaTime;
 		updateBoundingBox((int) x, (int) y, 16, 16);
 		return 0;
 	}
 
 	private Random r = new Random();
-	private int absoluteTime = 0;
 	
 	@Override
 	public void render(Graphics g) {
 		g.setColor(color);
 		int temp;
 		try{
-			temp = r.nextInt((int)(0-((double)absoluteTime/20d))+5);
+			temp = r.nextDouble() > absoluteTime / 2000 ? 1 : 0;
 		}catch(Exception e){
 			temp = 0;
 		}
 		
 		if (temp == 0) if (alive) g.fillRect((int) x, (int) y, WIDTH, HEIGHT);
-		if (debug) g.drawLine((int) x, (int) y, (int) desiredX, (int) desiredY);
+		
+		if (debug) g.drawLine((int) x + 8, (int) y + 8, (int) desiredX + 8, (int) desiredY + 8);
 		
 		healthBar += ((((double)health/(double)MAX_HEALTH)*16) - healthBar)/6;
 		//healthbar
