@@ -6,6 +6,7 @@ import MAndApps.apps.spacewars.entity.bullet.PlayerImpactBullet;
 import MAndApps.apps.spacewars.entity.bullet.PlayerPiercingBullet;
 
 public abstract class Bullet extends Entity {
+	
 	//these are the bullet identities. i think its fairly self explanatory..
 	//public static final int NAME_OF_BULLET_TYPE = some_number_not_being_used_as_another_id;
 	public static final int BASIC = 0;
@@ -31,10 +32,12 @@ public abstract class Bullet extends Entity {
 	public static final int PLAYER_IMPACT_TEN = 30;
 	public static final int PLAYER_GODMODE = 31;
 	public Bullet(int x, int y, int width, int height) {
-		super(x, y, width, height);
+		super.x = x;
+		super.y = y;
+		
 	}
 
-    /**
+	/**
      * bullet class now references here to get the cool down for the current bullet
      * updates upon ammo change or initialization of a gun type.
      * @param bulletType
