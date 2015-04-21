@@ -9,6 +9,7 @@ public class Shop {
     private final int ON = 17, OFF = 64, BOX_WIDTH = 500, BOX_HEIGHT = 200, BOX_Y_OFFSET = 50, BOX_Y_MULTIPLIER = 250, MAX_ANIMATION_TIME = BOX_WIDTH;
     private int state = OFF, selection = 0;
     private double animationTime = 0;
+    
     public void render(Graphics g, final int WIDTH){
         g.setColor(selection == 0 ? Color.CYAN : Color.BLUE);
         g.fillRect((int)animationTime-BOX_WIDTH, BOX_Y_OFFSET, BOX_WIDTH, BOX_HEIGHT);

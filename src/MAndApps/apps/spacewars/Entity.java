@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 
 public abstract class Entity extends BasicTickAndRender{
 	
-	protected double x, y, dx, dy;
+	protected double x, y, dx, dy, width, height;
 	
 	public void keyPressed(KeyEvent e){}
 	public void keyReleased(KeyEvent e){}
@@ -13,6 +13,12 @@ public abstract class Entity extends BasicTickAndRender{
 	}
 	public final double getY(){
 		return y;
+	}
+	public final double getWidth() {
+		return width;
+	}
+	public final double getHeight() {
+		return height;
 	}
 	
 	public abstract boolean isCollidable();

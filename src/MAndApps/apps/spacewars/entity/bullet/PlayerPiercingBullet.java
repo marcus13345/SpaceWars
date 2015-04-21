@@ -8,10 +8,13 @@ import MAndApps.apps.spacewars.SpaceWars;
 import MAndApps.apps.spacewars.entity.Bullet;
 import MAndApps.apps.spacewars.tools.Direction;
 
+import MAndEngine.Engine;
+
 public class PlayerPiercingBullet extends Bullet {
-	private final int direction, MAX_HITS;
+	private final Direction direction;
+	private final int MAX_HITS;
 	private final int WIDTH, HEIGHT;
-	private final static int SPEED = 10;
+	private final static double SPEED = .01;
 	private double x, y, oldX, oldY;
 	private boolean alive = true;
 	private int hits = 0;
@@ -26,7 +29,7 @@ public class PlayerPiercingBullet extends Bullet {
         return HEIGHT;
     }
 
-	public PlayerPiercingBullet(int direction, int x, int y, int pierce, boolean b) {
+	public PlayerPiercingBullet(Direction direction, int x, int y, int pierce) {
 		super(x, y, 1, 1);
 		this.x = x;
 		this.y = y;
@@ -39,29 +42,15 @@ public class PlayerPiercingBullet extends Bullet {
 			WIDTH = 8;
 			HEIGHT = 3;
 		}
-		updateBoundingBox((int) this.x, (int) this.y, WIDTH, HEIGHT);
-		INFINISHOT = b;
+		INFINISHOT = pierce == -1;
 	}
 	
 	public int tick() {
 		oldX = x;
 		oldY = y;
 		if (alive) {
-			switch(direction){
-			case Direction.UP:
-				y -= SPEED;
-				break;
-			case Direction.DOWN:
-				y += SPEED;
-				break;
-			case Direction.LEFT:
-				x -= SPEED;
-				break;
-			case Direction.RIGHT:
-				x += SPEED;
-				break;
-			}
-			updateBoundingBox((int) x, (int) y, WIDTH, HEIGHT);
+			y += SPEED * direction.getY() * Engine.deltaTime;
+			x += SPEED * direction.getX() * Engine.deltaTime;
 			
 			if(x > SpaceWars.getWIDTH() || x < 0 - WIDTH || y > SpaceWars.getHEIGHT() || y < 0 - HEIGHT){
 				alive = false;

@@ -92,25 +92,25 @@ public abstract class Bullet extends Entity {
 		case BASIC:
 			return new BasicPlayerBullet(direction, x, y);
 		case PLAYER_PIERCE_ONE:
-			return new PlayerPiercingBullet(direction, x, y, 2, false);
+			return new PlayerPiercingBullet(direction, x, y, 2);
 		case PLAYER_PIERCE_TWO:
-			return new PlayerPiercingBullet(direction, x, y, 3, false);
+			return new PlayerPiercingBullet(direction, x, y, 3);
 		case PLAYER_PIERCE_THREE:
-			return new PlayerPiercingBullet(direction, x, y, 4, false);
+			return new PlayerPiercingBullet(direction, x, y, 4);
 		case PLAYER_PIERCE_FOUR:
-			return new PlayerPiercingBullet(direction, x, y, 5, false);
+			return new PlayerPiercingBullet(direction, x, y, 5);
 		case PLAYER_PIERCE_FIVE:
-			return new PlayerPiercingBullet(direction, x, y, 6, false);
+			return new PlayerPiercingBullet(direction, x, y, 6);
 		case PLAYER_PIERCE_SIX:
-			return new PlayerPiercingBullet(direction, x, y, 7, false);
+			return new PlayerPiercingBullet(direction, x, y, 7);
 		case PLAYER_PIERCE_SEVEN:
-			return new PlayerPiercingBullet(direction, x, y, 8, false);
+			return new PlayerPiercingBullet(direction, x, y, 8);
 		case PLAYER_PIERCE_EIGHT:
-			return new PlayerPiercingBullet(direction, x, y, 9, false);
+			return new PlayerPiercingBullet(direction, x, y, 9);
 		case PLAYER_PIERCE_NINE:
-			return new PlayerPiercingBullet(direction, x, y, 10, false);
+			return new PlayerPiercingBullet(direction, x, y, 10);
 		case PLAYER_PIERCE_TEN:
-			return new PlayerPiercingBullet(direction, x, y, 15, true);	
+			return new PlayerPiercingBullet(direction, x, y, 15);	
 		case PLAYER_IMPACT_ONE:
 			return new PlayerImpactBullet(direction, x, y, 1);
 		case PLAYER_IMPACT_TWO:

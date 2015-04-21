@@ -7,31 +7,35 @@ import java.util.Random;
 import MAndApps.apps.spacewars.Entity;
 import MAndApps.apps.spacewars.SpaceWars;
 import MAndApps.apps.spacewars.entity.Enemy;
+import MAndEngine.Engine;
+
+import static MAndEngine.Utils.rand;
 
 public class NormalEnemy extends Enemy {
 	private int health = 2;
 	private final int MAX_HEALTH = health;
-	private static final int WIDTH = 16, HEIGHT = 16, PROXIMITY = 200;
-	private double time = 0, desiredX, desiredY, Xmod, Ymod;
+	private static final int PROXIMITY = 200;
+	private double time = 10000, desiredX, desiredY, Xmod, Ymod;
 	private static final double ACC = 0.005, MAXSPEED = 1, DEAD_ACC = 0.5d, DEAD_MAXSPEED = 5;
+
 	private Color color;
-	private boolean debug = true, alive = true;
+	private boolean alive = true;
 	private double healthBar = 1;
 	private final double reEvaluateTime;
 
-	public NormalEnemy(int x, int y) {
-		this(x, y, Math.random());
+	public NormalEnemy() {
+		this(Math.random());
+		
 	}
 	
-	public NormalEnemy(int x, int y, double hyperness) {
-		super(x, y, 16, 16);
-		this.x = x;
-		this.y = y;
-		final int LOW = 200, HIGH = 256, color = rand(LOW, HIGH);
+	public NormalEnemy(double hyperness) {
+		final int LOW = 200, HIGH = 255, color = rand(LOW, HIGH);
 		this.color = new Color(color, color, color);
-
+		x = SpaceWars.getWIDTH() / 2 - width / 2;
+		y = 100;
 		reEvaluateTime = 1 - hyperness;
-		
+		width = 16 * SpaceWars.scale;
+		height = 16 * SpaceWars.scale;
 	}
 
 	@Override
@@ -41,60 +45,56 @@ public class NormalEnemy extends Enemy {
 			alive = false;
 		}
 		if (alive) {
-			if (SpaceWars.getPlayer().getAlive()) {
+			if (!SpaceWars.getPlayer().isRespawning()) {
 				if (time > reEvaluateTime) {
 					time = 0;
-					Xmod = rand(-PROXIMITY, PROXIMITY);
-					Ymod = rand(-PROXIMITY, PROXIMITY);
+					Xmod = rand(-PROXIMITY * SpaceWars.scale, PROXIMITY * SpaceWars.scale);
+					Ymod = rand(-PROXIMITY * SpaceWars.scale, PROXIMITY * SpaceWars.scale);
 				}
 
 				desiredX = SpaceWars.getPlayer().getX() + Xmod;
 				desiredY = SpaceWars.getPlayer().getY() + Ymod;
 
 				if ((int) desiredX > (int) x)
-					dx += ACC;
+					dx += ACC * Engine.deltaTime;
 				else if ((int) desiredX < (int) x) {
-					dx -= ACC;
+					dx -= ACC * Engine.deltaTime;
 				}
 				if ((int) desiredY > (int) y)
-					dy += ACC;
+					dy += ACC * Engine.deltaTime;
 				else if ((int) desiredY < (int) y) {
-					dy -= ACC;
+					dy -= ACC * Engine.deltaTime;
 				}
 
 				if (dx > MAXSPEED)
-					while (dx > MAXSPEED)
-						dx -= ACC;
+					dx = MAXSPEED;
 				if (dx < 0 - MAXSPEED)
-					while (dx < 0 - MAXSPEED)
-						dx += ACC;
+					dx = 0 - MAXSPEED;
 				if (dy > MAXSPEED)
-					while (dy > MAXSPEED)
-						dy -= ACC;
+					dy = MAXSPEED;
 				if (dy < 0 - MAXSPEED)
-					while (dy < 0 - MAXSPEED)
-						dy += ACC;
+					dy = 0 - MAXSPEED;
 
 			} else {
 
 				if (time > reEvaluateTime) {
 					time = 0;
-					Xmod = rand(0, 1024);
-					Ymod = rand(0, 200);
+					Xmod = rand(0, SpaceWars.getWIDTH());
+					Ymod = rand(0, SpaceWars.getHEIGHT() / 3);
 				}
 
 				desiredX = Xmod;
 				desiredY = Ymod;
 
 				if ((int) desiredX > (int) x)
-					dx += DEAD_ACC;
+					dx += DEAD_ACC * Engine.deltaTime;
 				else if ((int) desiredX < (int) x) {
-					dx -= DEAD_ACC;
+					dx -= DEAD_ACC * Engine.deltaTime;
 				}
 				if ((int) desiredY > (int) y)
-					dy += DEAD_ACC;
+					dy += DEAD_ACC * Engine.deltaTime;
 				else if ((int) desiredY < (int) y) {
-					dy -= DEAD_ACC;
+					dy -= DEAD_ACC * Engine.deltaTime;
 				}
 
 				if (dx > DEAD_MAXSPEED)
@@ -112,56 +112,54 @@ public class NormalEnemy extends Enemy {
 
 			}
 
-			x += dx;
-			y += dy;
+			x += dx * Engine.deltaTime;
+			y += dy * Engine.deltaTime;
 
-			if (x > SpaceWars.getWIDTH() - WIDTH)
-				while (x > SpaceWars.getWIDTH() - WIDTH)
+			if (x > SpaceWars.getWIDTH() - width)
+				while (x > SpaceWars.getWIDTH() - width)
 					x--;
 			if (x < 0)
 				while (x < 0)
 					x++;
 
-			if (y > SpaceWars.getHEIGHT() - HEIGHT)
-				while (y > SpaceWars.getHEIGHT() - HEIGHT)
+			if (y > SpaceWars.getHEIGHT() - height)
+				while (y > SpaceWars.getHEIGHT() - height)
 					y--;
 			if (y < 0)
 				while (y < 0)
 					y++;
 		}
-		time += 0.01;
-		absoluteTime++;
-		updateBoundingBox((int) x, (int) y, 16, 16);
+		time += 0.01 * Engine.deltaTime;
+		absoluteTime += 0.01 * Engine.deltaTime;
 		return 0;
 	}
 
+	private double absoluteTime = 0;
+	
 	private Random r = new Random();
-	private int absoluteTime = 0;
-
 	@Override
 	public void render(Graphics g) {
 		g.setColor(color);
 		int temp;
-		try {
-			temp = r.nextInt((int) (0 - ((double) absoluteTime / 20d)) + 5);
-		} catch (Exception e) {
+
+		try{
+			temp = r.nextDouble() > absoluteTime / 2 ? 1 : 0;
+		}catch(Exception e){
 			temp = 0;
 		}
-
-		if (temp == 0)
-			if (alive)
-				g.fillRect((int) x, (int) y, WIDTH, HEIGHT);
-		if (debug)
-			g.drawLine((int) x, (int) y, (int) desiredX, (int) desiredY);
-
-		healthBar += ((((double) health / (double) MAX_HEALTH) * 16) - healthBar) / 6;
-		// healthbar
-		g.setColor(Color.RED);
-		g.fillRect((int) x, (int) y, WIDTH - 1, 3);
-		g.setColor(Color.GREEN);
-		g.fillRect((int) x, (int) y, (int) healthBar, 3);
+		
+		if (temp == 0) if (alive) g.fillRect((int) x, (int) y, (int)width, (int)height);
+		
+		if (SpaceWars.debug) g.drawLine((int)(x + width / 2), (int)(y + height / 2), (int)(desiredX + width / 2), (int)(desiredY + height / 2));
+		
+		healthBar += ((((double)health/(double)MAX_HEALTH)*(width + 1)) - healthBar)/6;
+		//healthbar
 		g.setColor(Color.BLACK);
-		g.drawRect((int) x, (int) y, WIDTH - 1, 3);
+		g.fillRect((int) x, (int) y - 5, (int)width - 1, 3);
+		g.setColor(Color.RED);
+		g.fillRect((int) x, (int) y - 5, (int)width, 3);
+		g.setColor(Color.GREEN);
+		g.fillRect((int) x, (int) y - 5, (int) healthBar, 3);
 	}
 
 	@Override

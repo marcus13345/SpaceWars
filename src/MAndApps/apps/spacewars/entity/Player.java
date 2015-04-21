@@ -3,49 +3,62 @@ package MAndApps.apps.spacewars.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.util.Random;
 
 import MAndApps.apps.spacewars.SpaceWars;
 import MAndApps.apps.spacewars.gun.Gun;
-import MAndApps.apps.spacewars.tools.Direction;
 import MAndApps.apps.spacewars.Entity;
 import static MAndEngine.Utils.rand;
+import MAndEngine.Engine;
 
 public class Player extends Entity {
-	private final static int WIDTH = 16, HEIGHT = 16;
 	private static final double ACC = 0.5, MAXSPEED = 5;
-	private boolean A = false, S = false, D = false, W = false, alive = true;
-	private Gun gun = new Gun(Bullet.BASIC, 25, (int)x, (int)y);
-	
+	private boolean alive = false;
+	private Gun gun = new Gun(Bullet.BASIC, 25, (int) x, (int) y);
+
 	/**
-	 * go boom is a callback when it dies because it dies on tick i assume?
-	 * TODO fix that so no die on tick.
+	 * go boom is a callback when it dies because it dies on tick i assume? TODO
+	 * fix that so no die on tick.
 	 */
 	private boolean goBoom = false;
 
 	public Player() {
-		x = 512;
-		y = 550;
+		reset();
+		width = 16 * SpaceWars.scale;
+		height = 16 * SpaceWars.scale;
+	}
+
+	private void reset() {
+		x = SpaceWars.getWIDTH() / 2 - width / 2;
+		y = SpaceWars.getHEIGHT() - (50 * SpaceWars.scale);
+		dy = -10;
+		dx = 0;
+		timer = 0;
+		time = 5;
 	}
 
 	@Override
 	public int tick() {
+		double ACC = Player.ACC * Engine.deltaTime / 2d;
+
 		if (goBoom) {
-			SpaceWars.BOOM(50, 1.2, 50, 50, 50, 30, (int) x, (int) y, 550, true,
-					false, 3);
+			SpaceWars.BOOM(50, 1.2, 50, 50, 50, 30, (int)(x + width/2), (int)(y + height/2), 550,
+					true, false, 3);
 			goBoom = false;
 		}
 		gun.tick();
 		if (alive) {
-
 			if (time != 1)
-				time -= 0.05d;
+				time -= 0.05d * Engine.deltaTime;
 			if (time < 1)
 				time = 1;
 
-			if (D && !A)
+			if (x > SpaceWars.getWIDTH() - width) {
+				dx -= ACC;
+			} else if (x < 0) {
 				dx += ACC;
-			else if (A && !D) {
+			} else if ((Engine.keys[KeyEvent.VK_D] && !Engine.keys[KeyEvent.VK_A]))
+				dx += ACC;
+			else if ((Engine.keys[KeyEvent.VK_A] && !Engine.keys[KeyEvent.VK_D])) {
 				dx -= ACC;
 			} else {
 				if ((int) (dx * 100) > 0)
@@ -56,9 +69,14 @@ public class Player extends Entity {
 					dx = 0;
 			}
 
-			if (S && !W)
+			if (y > SpaceWars.getHEIGHT() - height) {
+				dy -= ACC;
+			} else if (y < 0) {
 				dy += ACC;
-			else if (W && !S) {
+			} else if (Engine.keys[KeyEvent.VK_S]
+					&& !Engine.keys[KeyEvent.VK_W])
+				dy += ACC;
+			else if (Engine.keys[KeyEvent.VK_W] && !Engine.keys[KeyEvent.VK_S]) {
 				dy -= ACC;
 			} else {
 				if ((int) (dy * 100) > 0)
@@ -70,63 +88,39 @@ public class Player extends Entity {
 			}
 
 			if (dx > MAXSPEED)
-				while (dx > MAXSPEED)
-					dx -= ACC;
+				dx -= ACC;
 			if (dx < 0 - MAXSPEED)
-				while (dx < 0 - MAXSPEED)
-					dx += ACC;
+				dx += ACC;
 			if (dy > MAXSPEED)
-				while (dy > MAXSPEED)
-					dy -= ACC;
+				dy -= ACC;
 			if (dy < 0 - MAXSPEED)
-				while (dy < 0 - MAXSPEED)
-					dy += ACC;
+				dy += ACC;
 
-			y += dy;
-			x += dx;
-
-			if (x > SpaceWars.getWIDTH() - WIDTH)
-				while (x > SpaceWars.getWIDTH() - WIDTH)
-					x--;
-			if (x < 0)
-				while (x < 0)
-					x++;
-
-			if (y > SpaceWars.getHEIGHT() - HEIGHT)
-				while (y > SpaceWars.getHEIGHT() - HEIGHT)
-					y--;
-			if (y < 0)
-				while (y < 0)
-					y++;
+			y += dy * Engine.deltaTime;
+			x += dx * Engine.deltaTime;
 
 		} else {
-			x = -1;
-			y = -1;
-			if (timer > 4 * 50) {
+			if (timer > 4 * 50)
 				alive = true;
-				x = 512;
-				y = 550;
-			}
-			timer++;
+			else
+				timer += 0.75d * Engine.deltaTime;
 		}
 
 		return 0;
 	}
 
-	private int timer = 0;
+	private double timer = 0;
 
 	@Override
 	public void render(Graphics g) {
+
 		g.setColor(Color.BLACK);
+
 		if (alive) {
-			int temp;
-			try {
-				temp = rand(0, (int)time);
-			} catch (Exception e) {
-				temp = 1;
-			}
-			if (temp == 0)
-				g.fillRect((int) x, (int) y, WIDTH, HEIGHT);
+			int temp = rand(1, (int) time);
+
+			if (temp == 1)
+				g.fillRect((int) x, (int) y, (int) width, (int) height);
 		}
 		gun.render(g);
 	}
@@ -134,27 +128,34 @@ public class Player extends Entity {
 	private double time = 0;
 
 	public boolean getAlive() {
-		return alive;
+		return true;
 	}
 
-	@Override
-	public boolean isCollidable() {
-		return true;
+	public boolean isRespawning() {
+		return !alive;
 	}
 
 	@Override
 	public void die() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void collidedWith(Entity e) {
-		if(e instanceof Enemy) {
+
+		if (alive && e instanceof Enemy) {
+			alive = false;
 			goBoom = true;
 			timer = 0;
-			alive = false;
 			time = 5;
+			reset();
 		}
+	}
+
+	@Override
+	public boolean isCollidable() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }

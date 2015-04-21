@@ -11,9 +11,7 @@ import MAndApps.apps.spacewars.tools.Direction;
 
 public class BasicPlayerBullet extends Bullet {
 	private final int direction;
-	private final int WIDTH, HEIGHT;
 	private final static int SPEED = 10;
-	private double x, y;
 	private boolean alive = true;
 	
 	
@@ -23,13 +21,12 @@ public class BasicPlayerBullet extends Bullet {
 		this.y = y;
 		this.direction = direction;
 		if (direction == Direction.UP || direction == Direction.DOWN) {
-			WIDTH = 3;
-			HEIGHT = 8;
+			width = 3;
+			height = 8;
 		} else {
-			WIDTH = 8;
-			HEIGHT = 3;
+			width = 8;
+			height = 3;
 		}
-		updateBoundingBox((int) this.x, (int) this.y, WIDTH, HEIGHT);
 	}
 
 	public int tick() {
@@ -45,13 +42,7 @@ public class BasicPlayerBullet extends Bullet {
 			}
 			
 			
-			updateBoundingBox((int) x, (int) y, WIDTH, HEIGHT);
-			Rectangle r = getBoundingBox();
 			
-			//if out of bound
-			if(x > SpaceWars.getWIDTH() || x < 0 - WIDTH || y > SpaceWars.getHEIGHT() || y < 0 - HEIGHT){
-				alive = false;
-			}
 		}
 		return 0;
 	}
@@ -59,7 +50,7 @@ public class BasicPlayerBullet extends Bullet {
 	public void render(Graphics g) {
 		g.setColor(Color.BLACK);
 		if (alive)
-			g.fillRect((int) x, (int) y, WIDTH, HEIGHT);
+			g.fillRect((int) x, (int) y, (int)width, (int)height);
 	}
 
 	@Override
@@ -71,14 +62,6 @@ public class BasicPlayerBullet extends Bullet {
 	public int getDamage() {
 		return 1;
 	}
-
-    public int getWIDTH(){
-        return WIDTH;
-    }
-
-    public int getHEIGHT(){
-        return HEIGHT;
-    }
 	
 	public boolean isCollidable() {
 		return true;
@@ -86,13 +69,11 @@ public class BasicPlayerBullet extends Bullet {
 
 	@Override
 	public void die() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void collidedWith(Entity e) {
-		// TODO Auto-generated method stub
 		
 	}
 

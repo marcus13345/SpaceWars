@@ -37,7 +37,6 @@ public class PlayerImpactBullet extends Bullet {
 			WIDTH = 8;
 			HEIGHT = 3;
 		}
-		updateBoundingBox((int) this.x, (int) this.y, WIDTH, HEIGHT);
 		this.level = level;
 	}
 
@@ -52,9 +51,6 @@ public class PlayerImpactBullet extends Bullet {
 			} else if (direction == Direction.RIGHT) {
 				x += SPEED;
 			}
-
-			updateBoundingBox((int) x, (int) y, WIDTH, HEIGHT);
-			Rectangle r = getBoundingBox();
 			
 			if(x > SpaceWars.getWIDTH() || x < 0 - WIDTH || y > SpaceWars.getHEIGHT() || y < 0 - HEIGHT){
 				alive = false;
