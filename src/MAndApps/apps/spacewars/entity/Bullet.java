@@ -4,6 +4,7 @@ import MAndApps.apps.spacewars.Entity;
 import MAndApps.apps.spacewars.entity.bullet.BasicPlayerBullet;
 import MAndApps.apps.spacewars.entity.bullet.PlayerImpactBullet;
 import MAndApps.apps.spacewars.entity.bullet.PlayerPiercingBullet;
+import MAndApps.apps.spacewars.tools.Direction;
 
 public abstract class Bullet extends Entity {
 	
@@ -36,45 +37,8 @@ public abstract class Bullet extends Entity {
 		super.y = y;
 		
 	}
-
-	/**
-     * bullet class now references here to get the cool down for the current bullet
-     * updates upon ammo change or initialization of a gun type.
-     * @param bulletType
-     * @return
-     */
-    public static int getCooldown(int bulletType){
-        switch (bulletType){
-            case BASIC:
-                return 25;
-            case PLAYER_PIERCE_ONE:
-                return 20;
-            case PLAYER_PIERCE_TWO:
-                return 18;
-            case PLAYER_PIERCE_THREE:
-                return 16;
-            case PLAYER_PIERCE_FOUR:
-                return 14;
-            case PLAYER_PIERCE_FIVE:
-                return 12;
-            case PLAYER_PIERCE_SIX:
-                return 10;
-            case PLAYER_PIERCE_SEVEN:
-                return 8;
-            case PLAYER_PIERCE_EIGHT:
-                return 6;
-            case PLAYER_PIERCE_NINE:
-                return 4;
-            case PLAYER_PIERCE_TEN:
-                return 2;
-            case PLAYER_GODMODE:
-                return 0;
-            default:
-                return 25;
-        }
-    }
 	
-	public static Bullet getNewBullet(int bulletType, int x, int y, int direction){
+	public static Bullet getNewBullet(int bulletType, int x, int y, Direction direction){
 		switch(bulletType){
 		//this is the literal bit that goes through and indexes what to do
 		//with certain IDs that you defined above..
@@ -90,27 +54,7 @@ public abstract class Bullet extends Entity {
 		//inside the parenthesis, in the returns, are called
 		//"arguments" or "parameters". 
 		case BASIC:
-			return new BasicPlayerBullet(direction, x, y);
-		case PLAYER_PIERCE_ONE:
-			return new PlayerPiercingBullet(direction, x, y, 2);
-		case PLAYER_PIERCE_TWO:
-			return new PlayerPiercingBullet(direction, x, y, 3);
-		case PLAYER_PIERCE_THREE:
-			return new PlayerPiercingBullet(direction, x, y, 4);
-		case PLAYER_PIERCE_FOUR:
-			return new PlayerPiercingBullet(direction, x, y, 5);
-		case PLAYER_PIERCE_FIVE:
-			return new PlayerPiercingBullet(direction, x, y, 6);
-		case PLAYER_PIERCE_SIX:
-			return new PlayerPiercingBullet(direction, x, y, 7);
-		case PLAYER_PIERCE_SEVEN:
-			return new PlayerPiercingBullet(direction, x, y, 8);
-		case PLAYER_PIERCE_EIGHT:
-			return new PlayerPiercingBullet(direction, x, y, 9);
-		case PLAYER_PIERCE_NINE:
-			return new PlayerPiercingBullet(direction, x, y, 10);
-		case PLAYER_PIERCE_TEN:
-			return new PlayerPiercingBullet(direction, x, y, 15);	
+			return new BasicPlayerBullet(direction, x, y);	
 		case PLAYER_IMPACT_ONE:
 			return new PlayerImpactBullet(direction, x, y, 1);
 		case PLAYER_IMPACT_TWO:

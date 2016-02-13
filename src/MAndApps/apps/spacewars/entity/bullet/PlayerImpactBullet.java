@@ -10,7 +10,7 @@ import MAndApps.apps.spacewars.entity.Bullet;
 import MAndApps.apps.spacewars.tools.Direction;
 
 public class PlayerImpactBullet extends Bullet {
-	private final int direction;
+	private final Direction direction;
 	private final int WIDTH, HEIGHT;
 	private final static int SPEED = 10;
 	private double x, y;
@@ -25,12 +25,12 @@ public class PlayerImpactBullet extends Bullet {
         return HEIGHT;
     }
 
-	public PlayerImpactBullet(int direction, int x, int y, int level) {
+	public PlayerImpactBullet(Direction direction2, int x, int y, int level) {
 		super(x, y, 1, 1);
 		this.x = x;
 		this.y = y;
-		this.direction = direction;
-		if (direction == Direction.UP || direction == Direction.DOWN) {
+		this.direction = direction2;
+		if (direction2 == Direction.UP || direction2 == Direction.DOWN) {
 			WIDTH = 3;
 			HEIGHT = 8;
 		} else {

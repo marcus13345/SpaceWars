@@ -8,7 +8,8 @@ import MAndEngine.Engine;
 public class Main {
 	public static void main(String[] args) {
 		
-		Engine engine = new Engine(new String[] {"MAndApps.apps.spacewars.SpaceWars"}, false, true);
+		Engine engine = new Engine(new String[] {"MAndApps.apps.spacewars.SpaceWars"}, false, false);
+		engine.debug = 2;
 		engine.run();
 		
 	}

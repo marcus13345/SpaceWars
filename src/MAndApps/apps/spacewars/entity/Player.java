@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 
 import MAndApps.apps.spacewars.SpaceWars;
 import MAndApps.apps.spacewars.gun.Gun;
+import MAndApps.apps.spacewars.tools.Direction;
 import MAndApps.apps.spacewars.Entity;
 import static MAndEngine.Utils.rand;
 import MAndEngine.Engine;
@@ -13,8 +14,8 @@ import MAndEngine.Engine;
 public class Player extends Entity {
 	private static final double ACC = 0.5, MAXSPEED = 5;
 	private boolean alive = false;
-	private Gun gun = new Gun(Bullet.BASIC, 25, (int) x, (int) y);
-
+	private Gun gun = new Gun(Bullet.BASIC);
+	
 	/**
 	 * go boom is a callback when it dies because it dies on tick i assume? TODO
 	 * fix that so no die on tick.
@@ -47,6 +48,15 @@ public class Player extends Entity {
 		}
 		gun.tick();
 		if (alive) {
+			
+			//hold up, before we dive into physics...
+			
+			if(Engine.keys[KeyEvent.VK_I]) gun.shoot(Direction.UP);
+			else if(Engine.keys[KeyEvent.VK_J]) gun.shoot(Direction.LEFT);
+			else if(Engine.keys[KeyEvent.VK_K]) gun.shoot(Direction.DOWN);
+			else if(Engine.keys[KeyEvent.VK_L]) gun.shoot(Direction.RIGHT);
+			
+			
 			if (time != 1)
 				time -= 0.05d * Engine.deltaTime;
 			if (time < 1)
@@ -122,7 +132,6 @@ public class Player extends Entity {
 			if (temp == 1)
 				g.fillRect((int) x, (int) y, (int) width, (int) height);
 		}
-		gun.render(g);
 	}
 
 	private double time = 0;
@@ -157,5 +166,13 @@ public class Player extends Entity {
 	public boolean isCollidable() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public int getCenterY() {
+		return (int)(y + height / 2d);
+	}
+	
+	public int getCenterX() {
+		return (int)(x + width / 2d);
 	}
 }

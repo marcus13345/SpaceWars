@@ -9,13 +9,15 @@ import MAndApps.apps.spacewars.SpaceWars;
 import MAndApps.apps.spacewars.entity.Bullet;
 import MAndApps.apps.spacewars.tools.Direction;
 
+import MAndEngine.Engine;;
+
 public class BasicPlayerBullet extends Bullet {
-	private final int direction;
+	private final Direction direction;
 	private final static int SPEED = 10;
 	private boolean alive = true;
 	
 	
-	public BasicPlayerBullet(int direction, int x, int y) {
+	public BasicPlayerBullet(Direction direction, int x, int y) {
 		super(x, y, 1, 1);
 		this.x = x;
 		this.y = y;
@@ -31,20 +33,18 @@ public class BasicPlayerBullet extends Bullet {
 
 	public int tick() {
 		if (alive) {
-			if (direction == Direction.UP) {
-				y -= SPEED;
-			} else if (direction == Direction.DOWN) {
-				y += SPEED;
-			} else if (direction == Direction.LEFT) {
-				x -= SPEED;
-			} else if (direction == Direction.RIGHT) {
-				x += SPEED;
-			}
 			
+			y += direction.getY() * SPEED * Engine.deltaTime;
+			x += direction.getX() * SPEED * Engine.deltaTime;
 			
+			if(y + height < 0) alive = false;
+			if(y > SpaceWars.getHEIGHT()) alive = false;
+			if(x + width < 0) alive = false;
+			if(x > SpaceWars.getWIDTH()) alive = false;
 			
 		}
 		return 0;
+		
 	}
 
 	public void render(Graphics g) {
@@ -75,6 +75,18 @@ public class BasicPlayerBullet extends Bullet {
 	@Override
 	public void collidedWith(Entity e) {
 		
+	}
+
+	@Override
+	public int getWIDTH() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getHEIGHT() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

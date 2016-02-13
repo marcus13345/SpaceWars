@@ -152,7 +152,7 @@ public class NormalEnemy extends Enemy {
 		
 		if (SpaceWars.debug) g.drawLine((int)(x + width / 2), (int)(y + height / 2), (int)(desiredX + width / 2), (int)(desiredY + height / 2));
 		
-		healthBar += ((((double)health/(double)MAX_HEALTH)*(width + 1)) - healthBar)/6;
+		healthBar += (((((double)health/(double)MAX_HEALTH)*(width + 1)) - healthBar)/6) * Engine.deltaTime;
 		//healthbar
 		g.setColor(Color.BLACK);
 		g.fillRect((int) x, (int) y - 5, (int)width - 1, 3);
@@ -183,12 +183,6 @@ public class NormalEnemy extends Enemy {
 
 	@Override
 	public void die() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void collidedWith(Entity e) {
 		// TODO Auto-generated method stub
 		
 	}

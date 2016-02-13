@@ -26,9 +26,12 @@ import MAndEngine.ImageCreator;
  * are laying around.
  * 
  * this is somewhat old architecture and some half finished new architecture can be found
- * in the screensaver branch as i plan to make this both a game and a screen saver with
- * a player AI. as well, some of these concepts will be ported over to mand engine
+ * in the screen saver branch as i plan to make this both a game and a screen saver with
+ * a player AI. as well, some of these concepts will be ported over to mandengine
  * once they are abstracted a little better.
+ * 
+ * screen saver branch has been remerged and deleted.
+ * screen saver will still be made, but i think the base engine needs more polish first
  * 
  * @author mgosselin
  *
@@ -54,10 +57,17 @@ public class SpaceWars implements BasicApp {
 	private static int HEIGHT = ORIGINAL_HEIGHT;
 	public static int scale;
 
+	
+	
 	@Override
 	public void tick() {
 
-		// ticks enemies
+		//add entities
+		for(Entity e : toAdd)
+			entities.add(e);
+		toAdd.clear();
+		
+		// ticks entities
 		for (int i = 0; i < entities.size(); i++)
 			entities.get(i).tick();
 		
@@ -84,8 +94,8 @@ public class SpaceWars implements BasicApp {
 								((e2.getY() > e1.getY()) & (e2.getY() < e1.getY() + e1.getHeight())))								
 								
 						) {
-						e1.collidedWith(e2);
-						e2.collidedWith(e1);
+							e1.collidedWith(e2);
+							e2.collidedWith(e1);
 						}
 					}
 				}
@@ -103,17 +113,19 @@ public class SpaceWars implements BasicApp {
 				i++;
 		}
 	}
-
-	public static ArrayList<Entity> getEnemies() {
-		return entities;
+	
+	private static ArrayList<Entity> toAdd;
+	
+	public static void addEntity(Entity e) {
+		
+		toAdd.add(e);
+		
 	}
 
 	@Override
 	public void render(Graphics2D g) {
-		
-			
-			try {
-				g.drawImage(background, 0, 0, null);
+		try {
+			g.drawImage(background, 0, 0, null);
 
 			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -123,11 +135,9 @@ public class SpaceWars implements BasicApp {
 			for (int i = 0; i < entities.size(); i++)
 				entities.get(i).render(g);
 
-
-			// render level and xp bar.
-			g.setFont(levelFont);
-			g.setColor(Color.WHITE);
 			g.setFont(defaultFont);
+			g.setColor(Color.WHITE);
+			g.drawString("" + entities.size(), 20, 32);
 			
 			if (paused) {
 				g.setFont(pausedFont);
@@ -167,9 +177,10 @@ public class SpaceWars implements BasicApp {
 	@Override
 	public void initialize() {
 		try {
+			toAdd = new ArrayList<Entity>();
 			player = new Player();
 			entities.add(player);
-			for(int i = 0; i < 100; i ++)
+			for(int i = 0; i < 10; i ++)
 				entities.add(new NormalEnemy());
 			
 			Engine.timeScale = 60d / (1000d * 1000d);
@@ -182,8 +193,7 @@ public class SpaceWars implements BasicApp {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		for (int i = 0; i < entities.size(); i++)
-			entities.get(i).keyPressed(e);
+		player.keyPressed(e);
 		if (e.getKeyCode() == KeyEvent.VK_P || e.getKeyCode() == KeyEvent.VK_SPACE) {
 			paused = !paused;
 		} else if (e.getKeyCode() == KeyEvent.VK_Q) {
